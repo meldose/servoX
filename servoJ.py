@@ -1,5 +1,5 @@
 import math # it imports the module called math
-from servoX import time_interval # it imports servoX module fomr class time_interval
+from servoX import time_interval # it imports servoX module from class time interval
 
 # Set target positions for joints based on real-time feedback and conveyor tracking
 def conveyor_tracking_servoj(target_joint_positions, velocity): # defining an function for servoj
