@@ -1,5 +1,5 @@
-from gpiozero import Servo
-from time import sleep
+from gpiozero import Servo # import gpiozero library 
+from time import sleep # import time library from time module
 
 # Define GPIO pins for servos
 SERVO_J_PIN = 17  # GPIO17 for Servo J
@@ -9,6 +9,7 @@ SERVO_X_PIN = 27  # GPIO27 for Servo X
 servo_j = Servo(SERVO_J_PIN)
 servo_x = Servo(SERVO_X_PIN)
 
+# Defining servo position
 def set_servo_position(servo, position):
     """
     Sets the servo to a specified position.
@@ -17,6 +18,7 @@ def set_servo_position(servo, position):
     servo.value = position
     print(f"Setting {servo} to position {position}")
 
+# Defining function for servo speed
 def set_servo_speed(servo, speed):
     """
     Sets the servo speed by adjusting pulse width modulation (PWM).
@@ -26,7 +28,8 @@ def set_servo_speed(servo, speed):
     # Actual speed control might require different hardware or PWM frequency adjustments.
     servo.value = speed
     print(f"Setting {servo} to speed {speed}")
-
+    
+# Defining function for conveyor tracking 
 def conveyor_tracking_system():
     """
     Main function to control the conveyor tracking system.
@@ -51,7 +54,8 @@ def conveyor_tracking_system():
         print("Conveyor tracking system stopped.")
         servo_j.value = None
         servo_x.value = None
-
+        
+# Defining function for getting object position
 def get_object_position():
     """
     Placeholder function to get the object's position from sensors.
@@ -61,6 +65,7 @@ def get_object_position():
     # Replace with actual sensor input
     return 0.0
 
+# Defining function for calculating servo J postion
 def calculate_servo_j_position(position):
     """
     Calculate the servo J position based on object position.
@@ -69,6 +74,7 @@ def calculate_servo_j_position(position):
     # Example: Direct mapping
     return position
 
+# Defining function for calculating servo X speed
 def calculate_servo_x_speed():
     """
     Calculate the servo X speed based on tracking requirements.
