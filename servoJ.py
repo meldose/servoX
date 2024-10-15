@@ -3,7 +3,6 @@ from servoX import time_interval  # it imports servoX module from class time int
 from neurapy.robot import Robot 
 r= Robot()
 
-
 # Set target positions for joints based on real-time feedback and conveyor tracking
 def conveyor_tracking_servoj(target_joint_positions, velocity):  # defining an function for servoj
     current_joint_positions = r.get_current_joint_positions()  # gets the current joint positions
