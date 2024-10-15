@@ -1,9 +1,12 @@
 import math  # it imports the module called math
 from servoX import time_interval  # it imports servoX module from class time interval
+from neurapy.robot import Robot 
+r= Robot()
+
 
 # Set target positions for joints based on real-time feedback and conveyor tracking
 def conveyor_tracking_servoj(target_joint_positions, velocity):  # defining an function for servoj
-    current_joint_positions = get_current_joint_positions()  # gets the current joint positions
+    current_joint_positions = r.get_current_joint_positions()  # gets the current joint positions
 
     # Update joint positions to track object on conveyor
     while True:  # while loop fot the condition to track the object in the conveyor using the servox
