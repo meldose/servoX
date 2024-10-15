@@ -14,7 +14,7 @@ def conveyor_tracking_servoj(target_joint_positions, velocity): # defining an fu
         updated_joint_positions = [joint + conveyor_movement for joint in current_joint_positions]
         
         # Move the robot using ServoJ
-        servoj(updated_joint_positions, 0.01, 0.01, time_interval)
+        servoj(updated_joint_positions, velocity, velocity, time_interval)
         
         # Sleep or wait for the next update
         wait(time_interval)
