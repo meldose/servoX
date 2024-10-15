@@ -23,4 +23,3 @@ def conveyor_tracking_servoj(target_joint_positions, velocity): # defining an fu
 conveyor_tracking_servoj([0.5, -1.2, 1.0, -0.5, 1.2, 0], 0.2)
 
 
-
