@@ -63,7 +63,7 @@ def get_object_position():
     """
     # Example: Return a random position value
     # Replace with actual sensor input
-    return 0.0
+    return random.uniform(-1, 1)
 
 # Defining function for calculating servo J postion
 def calculate_servo_j_position(position):
@@ -85,3 +85,4 @@ def calculate_servo_x_speed():
 
 if __name__ == "__main__":
     conveyor_tracking_system()
+
