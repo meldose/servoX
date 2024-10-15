@@ -25,7 +25,6 @@ while True:
     conveyor_position_offset = conveyor_speed * (current_time - detection_time)
     updated_sorting_position = detected_position[:]
     updated_sorting_position[1] += conveyor_position_offset  # Update Y-coordinate
-    
     sorting_robot.movelinear_online(updated_sorting_position, velocity=[0.15]*7, acceleration=[2.]*7)
     
     # Simulate sorting action (e.g., placing in bins)
@@ -39,7 +38,6 @@ while True:
     conveyor_position_offset = conveyor_speed * (current_time - detection_time)
     updated_picking_position = updated_sorting_position[:]
     updated_picking_position[1] += conveyor_position_offset  # Update Y-coordinate
-    
     picking_robot.movelinear_online(updated_picking_position, velocity=[0.15]*7, acceleration=[2.]*7)
     
     # Simulate picking action
@@ -54,3 +52,4 @@ sorting_robot.deactivate_servo_interface()
 picking_robot.deactivate_servo_interface()
 sorting_robot.stop()
 picking_robot.stop()
+
