@@ -27,6 +27,7 @@ for target in [target_1, target_2]: # checking the values are there in target 1 
     time.sleep(10)
     target[0] -= target_1
     
+    
 r.stop_movelinear_online() # stop the robot movement    
 print("Robot stopped")
 time.sleep(2)

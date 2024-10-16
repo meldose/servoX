@@ -47,7 +47,7 @@ def conveyor_tracking_system():
             # Replace with actual speed control logic
             desired_speed = calculate_servo_x_speed()  # Placeholder function
             set_servo_speed(servo_x, desired_speed)
-
+          
             sleep(0.1)  # Adjust the loop delay as needed
 
     except KeyboardInterrupt:

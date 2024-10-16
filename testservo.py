@@ -11,6 +11,7 @@ class ServoX:
         # Code to move the servo motor to the specified angle
         time.sleep(1)  # Simulating the time it takes for the servo to move
 
+# create an class for conveyor belt
 class ConveyorBelt:
     def __init__(self):
         self.speed = 1  # Conveyor speed
@@ -27,6 +28,7 @@ class ConveyorBelt:
         # Simulating the detection of objects at random intervals on the conveyor
         return random.randint(0, 180)
 
+# Defining an function for conveyor tracking
 def conveyor_tracking(servo, conveyor):
     conveyor.start()
     
