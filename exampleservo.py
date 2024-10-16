@@ -1,8 +1,8 @@
 from neurapy.robot import Robot
-import time
-import copy
-import signal
-import sys
+import time # import time module
+import copy # import copy moudule
+import signal # import signal module
+import sys # import sys module
 import numpy as np
 import quaternion
 
