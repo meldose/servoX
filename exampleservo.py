@@ -19,8 +19,8 @@ target_2 = [0.25, 0.3, 0.2] # added second target position for testing
 
 for target in [target_1, target_2]: # checking the values are there in target 1 and 2
     print("Target:", target)
-    current_pose = copy.deepcopy(r.get_current_cartesian_pose())# adding the current position to an variable
-    current_pose[:3] += target
+    current_pose = copy.deepcopy(r.get_current_cartesian_pose()) # adding the current position to an variable
+    current_pose[:3] += target # adding the current position of the robot to the target position
     velocity = [0.15]*6 # velocity is set to 0.15   
     acceleration = [2.]*6 # acceleration is set to 2
     error_code = r.movelinear_online(current_pose, velocity, acceleration)
