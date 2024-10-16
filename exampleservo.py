@@ -6,11 +6,11 @@ import sys
 import numpy as np
 import quaternion
 
-def signal_handler(signum, frame):
-    print("Signal Handler called")
-    r.deactivate_servo_interface()
-    r.stop()
-    sys.exit(0)
+# def signal_handler(signum, frame):
+#     print("Signal Handler called")
+#     r.deactivate_servo_interface()
+#     r.stop()
+#     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
     # def signal_handler(signum, frame):
