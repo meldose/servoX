@@ -32,7 +32,8 @@ for target in [target_1, target_2]:
     error_code = r.movelinear_online(current_pose, velocity, acceleration)
     time.sleep(10)
     target[0] -= target_1
-
+    
+r.stop_movelinear_online()
 print("Robot stopped")
 time.sleep(2)
 r.deactivate_servo_interface()
