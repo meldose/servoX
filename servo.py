@@ -4,7 +4,7 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig
 
 r = Robot()
 
-#Switch to external servo mode
+# Switch to external servo mode
 r.activate_servo_interface('position')
 
 dof = 6
@@ -26,15 +26,10 @@ inp.max_acceleration = [3]*dof
 inp.max_jerk = [10.]*dof
 res = Result.Working
 
-
-
 while res == Result.Working:
-    '''
-    Error code is returned through Servo.
-    '''
+    # Error code is returned through Servo.
     error_code = 0
-    if(error_code < 3):
-
+    if error_code < 3:
         res = otg.update(inp, out)
 
         position = out.new_position
@@ -48,6 +43,7 @@ while res == Result.Working:
     else:
         print("Servo in error, error code, ", error_code)
         break
+
 r.deactivate_servo_interface()
 
 r.stop()
