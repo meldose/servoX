@@ -1,4 +1,4 @@
-from neurapy.robot import Robot
+from neurapy.robot import Robot # import robot module
 import time # import time module
 import copy # import copy moudule
 import signal # import signal module
@@ -18,7 +18,7 @@ target_1 = [0.3, 0.25, 0.1] # added for testing the target position
 target_2 = [0.25, 0.3, 0.2] # added second target position for testing
 
 for target in [target_1, target_2]: # checking the values are there in target 1 and 2
-    print("Target:", target)
+    print("Target:", target) # printing the target position
     current_pose = copy.deepcopy(r.get_current_cartesian_pose()) # adding the current position to an variable
     current_pose[:3] += target # adding the current position of the robot to the target position
     velocity = [0.15]*6 # velocity is set to 0.15   
@@ -29,7 +29,7 @@ for target in [target_1, target_2]: # checking the values are there in target 1 
     
     
 r.stop_movelinear_online() # stop the robot movement    
-print("Robot stopped")
+print("Robot stopped") # robot stopped 
 time.sleep(2)
 r.deactivate_servo_interface() # deactivating the servo interface
 r.stop()
