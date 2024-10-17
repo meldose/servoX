@@ -91,7 +91,7 @@ class NeuraPy (PortableServer.Servant):
     _omni_op_d = {"servoJ": _0_servo.NeuraPy._d_servoJ, "servoX": _0_servo.NeuraPy._d_servoX, "getTrajectoryScalingFactor": _0_servo.NeuraPy._d_getTrajectoryScalingFactor}
 
 NeuraPy._omni_skeleton = NeuraPy
-_0_servo__POA.NeuraPy = NeuraPy
+_0_servo__POA.NeuraPy = NeuraPy # defines how the requests from clients are handled
 omniORB.registerSkeleton(NeuraPy._NP_RepositoryId, NeuraPy)
 del NeuraPy
 __name__ = "neurapy.servo"
