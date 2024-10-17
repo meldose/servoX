@@ -23,7 +23,7 @@ inp.target_acceleration= [0]*dof
 inp.max_velocity= [0.5]*dof
 inp.max_acceleration = [3]*dof
 inp.max_jerk = [10]*dof
-res = Result.Working # Assigningthe result variable
+res = Result.Working # Assigning the result variable
 
 while res==Result.Working: # while condition is true 
     error=0

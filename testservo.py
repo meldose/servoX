@@ -1,10 +1,13 @@
-import time
-import random
+import time # import time module
+import random # importing random module
 
+# Defining a class called ServoX
 class ServoX:
     def __init__(self):
         self.angle = 0  # initial servo angle
-
+    
+    
+    # Defining a function called move_to_angle
     def move_to_angle(self, angle):
         print(f"Moving servo to {angle} degrees.")
         self.angle = angle
