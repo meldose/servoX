@@ -58,6 +58,8 @@ NeuraPy._d_servoX = ((omniORB.typeMapping["IDL:vector_data:1.0"], omniORB.typeMa
 NeuraPy._d_getTrajectoryScalingFactor = ((), (omniORB.tcInternal.tv_double, ), None)
 
 # NeuraPy object reference
+
+##############CLIENT PART######################
 class _objref_NeuraPy (CORBA.Object):
     _NP_RepositoryId = NeuraPy._NP_RepositoryId
 
@@ -79,6 +81,9 @@ del NeuraPy, _objref_NeuraPy
 
 # NeuraPy skeleton
 __name__ = "neurapy.servo__POA"
+
+
+################SERVER PART##################
 class NeuraPy (PortableServer.Servant):
     _NP_RepositoryId = _0_servo.NeuraPy._NP_RepositoryId
 
