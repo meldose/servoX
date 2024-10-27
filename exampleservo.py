@@ -30,7 +30,7 @@ for target in [target_1, target_2]: # checking the values are there in target 1 
     
 r.stop_movelinear_online() # stop the robot movement    
 print("Robot stopped") # robot stopped 
-time.sleep(2)
+time.sleep(2) # sleep for 2 seconds
 r.deactivate_servo_interface() # deactivating the servo interface
-r.stop()
+r.stop() # stopped the robot
 
