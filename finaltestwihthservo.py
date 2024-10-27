@@ -9,45 +9,45 @@ import numpy as np # import numpy module
 
 # Defining a signal handler for graceful interruption
 def signal_handler(signum, frame):
-    print("Signal handler called with signal", signum)
-    sys.exit(0)
+    print("Signal handler called with signal", signum) # print message
+    sys.exit(0) # exit the program
 
-signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGINT, signal_handler) # set the signal handler
 
 # Importing the Robot class
 from neurapy.robot import Robot
 
 # Defining a Class called Camera
 class Camera:
-    def __init__(self):
+    def __init__(self): # initialize the class
         self.item_detected = False  # No item detected initially
-        self.item_position = None
+        self.item_position = None # set item position to None
         self.item_type = None  # This could represent size, color, or other criteria
 
     # Defining a function called detect item
-    def detect_item(self):
+    def detect_item(self): # defining detect_item function
         # Randomly simulate item detection
-        self.item_detected = random.choice([True])
+        self.item_detected = random.choice([True]) # set item to be detected as True
         if self.item_detected:  # if item is detected then trigger a signal
             self.item_position = (random.randint(0, 150), random.randint(0, 80))  # Random position on conveyor
             self.item_type = random.choice(["circle", "square", "rectangle", "oval", "star"])  # Simulate item types
         else:
-            self.item_position = None
-            self.item_type = None
-        return self.item_detected, self.item_position, self.item_type
+            self.item_position = None # set item position to None
+            self.item_type = None # set item type to None
+        return self.item_detected, self.item_position, self.item_type # return item detected, item position, item type
 
     # Signal method to notify Cobot1
-    def send_signal(self):
-        if self.item_detected:
-            print("Signal: Item detected, sending signal to Cobot1 to sort.")
+    def send_signal(self): # defining send_signal function
+        if self.item_detected: # if the item is detected is true
+            print("Signal: Item detected, sending signal to Cobot1 to sort.") # print message
             return True  # Signal to Cobot1
         return False
 
 
 # Defining a Class called Cobot  
 class Cobot:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, name): # initialize the class
+        self.name = name # set name of the cobot
         self.is_busy = False  # Set cobot to not busy initially
 
     def sort_item(self, position, item_type): # defining sort_item method function
