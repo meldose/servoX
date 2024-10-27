@@ -50,19 +50,19 @@ class Cobot:
         self.name = name
         self.is_busy = False  # Set cobot to not busy initially
 
-    def sort_item(self, position, item_type):
-        if not self.is_busy:
-            print(f"{self.name} is moving to sort the item at position {position}, identified as {item_type}.")
-            self.is_busy = True
+    def sort_item(self, position, item_type): # defining sort_item method function
+        if not self.is_busy: #check if the cobot is not busy
+            print(f"{self.name} is moving to sort the item at position {position}, identified as {item_type}.") # printing message
+            self.is_busy = True # set cobot to busy
             time.sleep(4)  # Simulate sorting time
-            print(f"{self.name} has sorted the item (type: {item_type}) and placed it in the conveyor belt for Cobot2.")
-            self.is_busy = False
+            print(f"{self.name} has sorted the item (type: {item_type}) and placed it in the conveyor belt for Cobot2.") # print message
+            self.is_busy = False  # set cobot to not busy
             return True  # Sorting done
         else:
-            print(f"{self.name} is currently busy sorting.")
-            return False
+            print(f"{self.name} is currently busy sorting.") #show message
+            return False # sorting not done
 
-    def pick_sorted_item(self, item_type, boxes):
+    def pick_sorted_item(self, item_type, boxes): # defining pick_sorted_item method function
         box_mapping = {  # Mapping between item types and box names
             "circle": "Box-a",
             "square": "Box-b",
@@ -71,27 +71,27 @@ class Cobot:
             "star": "Box-e"
         }
         if not self.is_busy:  # if Cobot2 is not busy then pick item
-            print(f"{self.name} is moving to pick up the sorted item of type {item_type} from the sorted area.")
-        self.is_busy = True
+            print(f"{self.name} is moving to pick up the sorted item of type {item_type} from the sorted area.") #print message
+        self.is_busy = True # set cobot to busy
         time.sleep(4)  # Simulate picking up sorted item
-        print(f"{self.name} has picked the sorted item of type {item_type} from the sorted area.")
+        print(f"{self.name} has picked the sorted item of type {item_type} from the sorted area.") # print message
 
         # Place the picked item in the correct box
-        box = box_mapping.get(item_type)
-        if box:
+        box = box_mapping.get(item_type) # serch for box name based on item type
+        if box: # if box is found
             boxes[box].append(1)  # Add the item to the corresponding box
-            print(f"{self.name} has placed the item of type {item_type} in {box}.")
+            print(f"{self.name} has placed the item of type {item_type} in {box}.") # print message
         else:
-            print(f"Error: No box found for item type {item_type}.")
-        self.is_busy = False
+            print(f"Error: No box found for item type {item_type}.") # print error message
+        self.is_busy = False # set cobot to not busy
 
 
 # Defining a Class called ConveyorTrackingSystem 
-class ConveyorTrackingSystem:
-    def __init__(self):
-        self.camera = Camera()
-        self.cobot1 = Cobot("Cobot 1 (Sorter)")
-        self.cobot2 = Cobot("Cobot 2 (Picker)")
+class ConveyorTrackingSystem: # defining class called ConveyorTrackingSystem
+    def __init__(self): # initialize the class
+        self.camera = Camera() #setup camera
+        self.cobot1 = Cobot("Cobot 1 (Sorter)") # setup cobots
+        self.cobot2 = Cobot("Cobot 2 (Picker)") # setup cobots
         self.sorted_items = []  # List to track sorted items ready for pickup
         self.boxes = {
             "Box-a": [],
@@ -102,66 +102,66 @@ class ConveyorTrackingSystem:
         }  # Dictionary to hold boxes for different item types
         self.robot = Robot()  # Initialize the neurapy robot
 
-    def run(self):
-        iteration = 0
-        self.robot.activate_servo_interface('position')  # Activate servo interface
+    def run(self): # defining run function
+        iteration = 0 # set iteration to 0
+        self.robot.activate_servo_interface('position')  # Activate servo interface 
 
         # Define targets for testing robot movement
-        target_1 = [0.3, 0.25, 0.1]  # Target position 1
-        target_2 = [0.25, 0.3, 0.2]  # Target position 2
+        target_1 = [0.3, 0.25, 0.1]  # Target position 1 #set target position1
+        target_2 = [0.25, 0.3, 0.2]  # Target position 2 # set target position2
 
         while iteration < 5:  # Add a condition to stop after 5 iterations
-            print("Camera scanning for items on the conveyor belt")
-            item_detected, position, item_type = self.camera.detect_item()
+            print("Camera scanning for items on the conveyor belt") # print message
+            item_detected, position, item_type = self.camera.detect_item() #se detect item from camera
             print("##############################################################") 
-            if item_detected:
-                print(f"Item detected at position {position}, identified as {item_type}.")
+            if item_detected: # if item is detected
+                print(f"Item detected at position {position}, identified as {item_type}.") #show message
 
                 # Send signal from Camera to Cobot1
-                if self.camera.send_signal():
+                if self.camera.send_signal(): # check if signal is sent
                     # Assign Cobot1 to sort the item based on the signal
-                    if not self.cobot1.is_busy:
-                        sorting_done = self.cobot1.sort_item(position, item_type)
-                        if sorting_done:
+                    if not self.cobot1.is_busy: # check if Cobot1 is not busy
+                        sorting_done = self.cobot1.sort_item(position, item_type) # call sort_item method
+                        if sorting_done: # if sorting is done
                             # Add the sorted item to the list of items to be picked
-                            self.sorted_items.append(item_type)
+                            self.sorted_items.append(item_type) # set item to be picked
                             # Cobot2 picks the item immediately after it's sorted
-                            if not self.cobot2.is_busy and self.sorted_items:
+                            if not self.cobot2.is_busy and self.sorted_items: # check if Cobot2 is not busy
                                 # Cobot2 only picks after Cobot1 has sorted
                                 self.cobot2.pick_sorted_item(self.sorted_items.pop(0), self.boxes)
 
                                 # Move the robot between target positions
-                                for target in [target_1, target_2]:
-                                    print("Moving robot to target:", target)
-                                    current_pose = copy.deepcopy(self.robot.get_current_cartesian_pose())
-                                    current_pose[:3] += target
-                                    velocity = [0.15] * 6
-                                    acceleration = [2.0] * 6
-                                    error_code = self.robot.movelinear_online(current_pose, velocity, acceleration)
-                                    time.sleep(10)
+                                for target in [target_1, target_2]: # for loop to move the robot between target positions
+                                    print("Moving robot to target:", target) # print message
+                                    current_pose = copy.deepcopy(self.robot.get_current_cartesian_pose()) # set current pose as variable and copy the robot pose
+                                    current_pose[:3] += target # increase the robot position
+                                    velocity = [0.15] * 6 # set velocity to 0.15
+                                    acceleration = [2.0] * 6 #set acceleration to 2
+                                    error_code = self.robot.movelinear_online(current_pose, velocity, acceleration) # set error code
+                                    time.sleep(10) # put the robot to sleep for 10 seconds
                                     target[0] -= target_1[0]  # Adjust target as part of simulation
 
             else:
-                print("No item detected.")
+                print("No item detected.") # print message
 
             # Wait before the next camera scan
-            time.sleep(4)
+            time.sleep(4) # put the robot to sleep for 4 seconds
             iteration += 1  # Increment the iteration counter
 
         self.robot.stop_movelinear_online()  # Stop the robot movement
-        print("Robot stopped")
-        time.sleep(2)
+        print("Robot stopped") # print message
+        time.sleep(2) #set time to sleep for 2 seconds
         self.robot.deactivate_servo_interface()  # Deactivate the servo interface
         self.robot.stop()  # Stop the robot
 
         # Print the contents of the boxes at the end
-        print("\nFinal Box Contents:")
-        for item_type, box in self.boxes.items():
+        print("\nFinal Box Contents:") # print message
+        for item_type, box in self.boxes.items(): #check for item type and box
             print(f"{item_type.capitalize()} box contains: {len(box)} items.")
 
 
 # Running the conveyor tracking system
-if __name__ == "__main__":
-    tracking_system = ConveyorTrackingSystem()
-    tracking_system.run()
+if __name__ == "__main__": # check if the code is run as the main program
+    tracking_system = ConveyorTrackingSystem() #setup tracking system
+    tracking_system.run() # call run function and run the system
 
