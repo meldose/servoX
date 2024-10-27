@@ -24,8 +24,8 @@ for target in [target_1, target_2]: # checking the values are there in target 1 
     velocity = [0.15]*6 # velocity is set to 0.15   
     acceleration = [2.]*6 # acceleration is set to 2
     error_code = r.movelinear_online(current_pose, velocity, acceleration)
-    time.sleep(10)
-    target[0] -= target_1
+    time.sleep(10) # setting the time  for sleep as 10 seconds
+    target[0] -= target_1 # increasing the target position by 1
 
 
 r.stop_movelinear_online() # stop the robot movement    
