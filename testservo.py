@@ -3,23 +3,23 @@ import random # importing random module
 
 # Defining a class called ServoX
 class ServoX:
-    def __init__(self):
+    def __init__(self): # initialize the class
         self.angle = 0  # initial servo angle
     
     
     # Defining a function called move_to_angle
-    def move_to_angle(self, angle):
+    def move_to_angle(self, angle): # defining function to move to angle
         print(f"Moving servo to {angle} degrees.")
-        self.angle = angle
+        self.angle = angle # set angle
         # Code to move the servo motor to the specified angle
         time.sleep(1)  # Simulating the time it takes for the servo to move
 
 # create an class for conveyor belt
-class ConveyorBelt: 
-    def __init__(self):
+class ConveyorBelt: # define a class for conveyor belt
+    def __init__(self): # initialize the class 
         self.speed = 1  # Conveyor speed
 
-    def start(self):
+    def start(self): # defining the function to start the conveyor belt
         print("Conveyor belt started.")
         # Code to start conveyor belt
 
@@ -32,25 +32,25 @@ class ConveyorBelt:
         return random.randint(0, 180)
 
 # Defining an function for conveyor tracking
-def conveyor_tracking(servo, conveyor):
-    conveyor.start()
+def conveyor_tracking(servo, conveyor): # define a function for conveyor tracking
+    conveyor.start() # conveyor start
     
-    while True:
+    while True: # set inifinite loop using while
         # Simulate detecting object on the conveyor
-        object_position = conveyor.get_object_position()
-        print(f"Detected object at position {object_position} on the conveyor.")
+        object_position = conveyor.get_object_position() # set object position
+        print(f"Detected object at position {object_position} on the conveyor.") # print message
         
         # Move the servo to the detected object position
         servo.move_to_angle(object_position)
         
         # Add condition to stop after a few iterations for simulation
-        time.sleep(2)
-        conveyor.stop()
+        time.sleep(2) # set time to 2
+        conveyor.stop() # stop conveyor
         break
 
 # Instantiate objects
-servo = ServoX()
-conveyor = ConveyorBelt()
+servo = ServoX() # set servo variable to ServoX class
+conveyor = ConveyorBelt() # set conveyor variable to ConveyorBelt class
 
 # Start tracking objects on the conveyor
-conveyor_tracking(servo, conveyor)
+conveyor_tracking(servo, conveyor) # calling the function with servo and conveyor
