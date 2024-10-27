@@ -9,7 +9,7 @@ import quaternion # impoort quaternion module
 signal.signal(signal.SIGINT, signal_handler)
     # def signal_handler(signum, frame):
 
-r = Robot()
+r = Robot() # assigning the robot module to r variable
 
 #Switch to external servo mode
 r.activate_servo_interface('position')
