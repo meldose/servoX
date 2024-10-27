@@ -4,7 +4,7 @@ import time # imported time libraries
 import copy # import copy module
 import signal # import signal module
 import sys # import sys module
-import numpy as np
+import numpy as np # import numpy module
 # import quaternion
 
 # Defining a signal handler for graceful interruption
