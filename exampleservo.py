@@ -15,7 +15,7 @@ r = Robot() # assigning the robot module to r variable
 r.activate_servo_interface('position')
 
 target_1 = [0.3, 0.25, 0.1] # added for testing the target position 
-target_2 = [0.25, 0.3, 0.2] # added second target position for testing
+target_2 = [0.25, 0.3, 0.2] # added second target position for testing 
 
 for target in [target_1, target_2]: # checking the values are there in target 1 and 2
     print("Target:", target) # printing the target position
