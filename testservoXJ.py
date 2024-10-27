@@ -6,13 +6,11 @@ SERVO_J_PIN = 17  # GPIO17 for Servo J
 SERVO_X_PIN = 27  # GPIO27 for Servo X
 
 # Initialize servos
-servo_j = Servo(SERVO_J_PIN)
-servo_x = Servo(SERVO_X_PIN)
+servo_j = Servo(SERVO_J_PIN) # set servo_j as Servo
+servo_x = Servo(SERVO_X_PIN) # set servo_x as Servo
 
 # Defining servo position
-def set_servo_position(servo, position):
-    """
-    Sets the servo to a specified position.
+def set_servo_position(servo, position): # defined set_servo_position function
     Position should be a float between -1 (full left) and +1 (full right).
     """
     servo.value = position
