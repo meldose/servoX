@@ -3,8 +3,8 @@ import time # import time module
 import copy # import copy moudule
 import signal # import signal module
 import sys # import sys module
-import numpy as np
-import quaternion
+import numpy as np # import numpy module 
+import quaternion # impoort quaternion module
 
 signal.signal(signal.SIGINT, signal_handler)
     # def signal_handler(signum, frame):
