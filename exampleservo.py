@@ -26,8 +26,8 @@ for target in [target_1, target_2]: # checking the values are there in target 1 
     error_code = r.movelinear_online(current_pose, velocity, acceleration)
     time.sleep(10)
     target[0] -= target_1
-    
-    
+
+
 r.stop_movelinear_online() # stop the robot movement    
 print("Robot stopped") # robot stopped 
 time.sleep(2) # sleep for 2 seconds

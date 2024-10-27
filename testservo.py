@@ -15,7 +15,7 @@ class ServoX:
         time.sleep(1)  # Simulating the time it takes for the servo to move
 
 # create an class for conveyor belt
-class ConveyorBelt:
+class ConveyorBelt: 
     def __init__(self):
         self.speed = 1  # Conveyor speed
 
