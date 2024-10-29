@@ -2,22 +2,22 @@ import time # import time module
 from neurapy.robot import Robot  # Assuming you have this import
 
 # Initialize robots
-sorting_robot = Robot("robot1") # seting sorting robot
-picking_robot = Robot("robot2") # seting picking robot
+sorting_robot = Robot("robot1") # setting sorting robot
+picking_robot = Robot("robot2") # setting picking robot
 
 conveyor_speed = 0.2  # Conveyor speed in meters per second
 detection_time = time.time()  # Time when the object was detected
 
 # Activate servo interfaces for both robots
-sorting_robot.activate_servo_interface('position') # seting sorting robot
-picking_robot.activate_servo_interface('position') # seting picking robot
+sorting_robot.activate_servo_interface('position') # setting sorting robot
+picking_robot.activate_servo_interface('position') # setting picking robot
 
 # Retrieve the initial Cartesian positions of both robots
-sorting_pose = sorting_robot.get_current_cartesian_pose() # seting sorting pose
-picking_pose = picking_robot.get_current_cartesian_pose() # seting picking pose
+sorting_pose = sorting_robot.get_current_cartesian_pose() # setting sorting pose
+picking_pose = picking_robot.get_current_cartesian_pose() # setting picking pose
  
 # Assume object detected at a position on the conveyor
-detected_position = [0.5, 0.3, 0.2]  # Example coordinates # seting detected position
+detected_position = [0.5, 0.3, 0.2]  # Example coordinates # setting detected position
 
 def sort_object(): # defining sorting function
     while True: # while loop
