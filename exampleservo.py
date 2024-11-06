@@ -1,4 +1,4 @@
-from neurapy.robot import Robot # import robot module
+# from neurapy.robot import Robot # import robot module
 import time # import time module
 import copy # import copy moudule
 import signal # import signal module
