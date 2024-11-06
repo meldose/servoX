@@ -15,7 +15,7 @@ def signal_handler(signum, frame):
 signal.signal(signal.SIGINT, signal_handler) # set the signal handler
 
 # Importing the Robot class
-from neurapy.robot import Robot
+# from neurapy.robot import Robot
 
 # Defining a Class called Camera
 class Camera:
