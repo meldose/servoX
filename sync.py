@@ -15,7 +15,7 @@ picking_robot.activate_servo_interface('position') # setting picking robot
 # Retrieve the initial Cartesian positions of both robots
 sorting_pose = sorting_robot.get_current_cartesian_pose() # setting sorting pose
 picking_pose = picking_robot.get_current_cartesian_pose() # setting picking pose
- 
+
 # Assume object detected at a position on the conveyor
 detected_position = [0.5, 0.3, 0.2]  # Example coordinates # setting detected position
 
