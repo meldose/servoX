@@ -89,10 +89,15 @@ def test_cartesian_command(robot_handler, program_handler, robot_status):
 
 def register_sio_callbacks(program_handler):
     if ENABLE_STEP_BY_STEP:
-        sio_handler = get_sio_client_singleton_instance()
-        sio_register = sio_handler.get_sio_client_register_obj()
-        sio_register.on("StepByStep", handle_sio_step_by_step)
-        return sio_handler.get_sio_client_obj()
+        try:
+            sio_handler = get_sio_client_singleton_instance()
+            sio_register = sio_handler.get_sio_client_register_obj()
+            sio_register.on("StepByStep", handle_sio_step_by_step)
+            logging.info("Socket.IO callbacks registered successfully.")
+            return sio_handler.get_sio_client_obj()
+        except Exception as e:
+            logging.error("Failed to initialize Socket.IO handler: %s", e)
+            return None
     else:
         logging.info("Step-by-step mode disabled.")
         return None
@@ -116,22 +121,30 @@ def signal_handler(signum, frame):
     sys.exit()
 
 def main(robot_handler):
-    program_handler = Program(robot_handler)
-    robot_status = RobotStatus(robot_handler)
-    iterator = loopCount()
-    tool_objects = {}
+    program_handler = None
+    robot_status = None
 
-    sio_object = register_sio_callbacks(program_handler)
-
-    tool_objects['NoTool'] = robot_handler.gripper(gripper_name='STANDARD_GRIPPER', tool_name='NoTool')
     try:
+        logging.info("Initializing Program handler...")
+        program_handler = Program(robot_handler)
+
+        logging.info("Initializing RobotStatus handler...")
+        robot_status = RobotStatus(robot_handler)
+
+        logging.info("Initializing loop counter...")
+        iterator = loopCount()
+
+        logging.info("Setting up tool...")
+        tool_objects = {}
+        tool_objects['NoTool'] = robot_handler.gripper(gripper_name='STANDARD_GRIPPER', tool_name='NoTool')
         current_tool = 'NoTool'
-        current_tool_params = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        current_tool_params = [0] * 16
         robot_handler.set_tool(tool_name=current_tool, tool_params=current_tool_params)
         logging.debug("Tool %s set with parameters: %s", current_tool, current_tool_params)
+
     except Exception as e:
-        logging.error("Error setting tool %s: %s", current_tool, e)
-        raise e
+        logging.error("Error during initialization: %s", e)
+        sys.exit("Initialization failed.")
 
     # Test basic Cartesian command
     if test_cartesian_command(robot_handler, program_handler, robot_status):
@@ -142,10 +155,13 @@ def main(robot_handler):
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
-    robot_handler = Robot()
     try:
+        logging.info("Attempting to connect to the robot...")
+        robot_handler = Robot()
+        logging.info("Robot connection established.")
         main(robot_handler)
     except Exception as e:
         logging.error("Exception during robot operation: %s: %s", type(e).__name__, e)
     finally:
-        sys.exit("Program completed.")
+        logging.info("Program completed.")
+        sys.exit()
