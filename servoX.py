@@ -48,13 +48,36 @@ def test_cartesian_command(robot_handler, program_handler):
         "continuous_execution": False
     }
     print(f"Preparing to execute test Cartesian command with data: {motion_data}")
+
+    # Validate coordinates and parameters
+    if not validate_motion_parameters(motion_data):
+        print("Validation failed for motion parameters.")
+        return
+
     try:
         program_handler.set_command(cmd.Cartesian, **motion_data, cmd_id=cmd_id)
+        print(f"Command set successfully, proceeding to execute with ID {cmd_id}")
         program_handler.execute([cmd_id])
         print("Test Cartesian command executed successfully.")
     except Exception as e:
         print(f"Failed to execute test Cartesian command with ID {cmd_id}: {str(e)}")
         raise
+
+def validate_motion_parameters(motion_data):
+    x, y, z, rx, ry, rz = motion_data['target_coordinates']
+    max_speed = 100  # Define maximum speed based on your robot's specifications
+    max_acceleration = 100  # Define maximum acceleration
+
+    if not (0 <= motion_data['speed'] <= max_speed):
+        print(f"Invalid speed: {motion_data['speed']}")
+        return False
+    if not (0 <= motion_data['acceleration'] <= max_acceleration):
+        print(f"Invalid acceleration: {motion_data['acceleration']}")
+        return False
+    if not (-1000 <= x <= 1000 and -1000 <= y <= 1000 and -1000 <= z <= 1000):  # Example bounds
+        print(f"Invalid target coordinates: {x}, {y}, {z}")
+        return False
+    return True
 
 def register_sio_callbacks(program_handler):
     sio_handler = get_sio_client_singleton_instance()
