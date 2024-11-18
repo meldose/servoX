@@ -33,7 +33,8 @@ def main(robot_handler):
     # Setting tool 'NoTool' for Program 'Program_001'
     try:
         current_tool = 'NoTool'
-        current_tool_params = [0] * 16
+        TOOL_PARAM_LENGTH = 16  # Number of parameters required by set_tool
+        current_tool_params = [0] * TOOL_PARAM_LENGTH
         robot_handler.set_tool(
             tool_name=current_tool, tool_params=current_tool_params
         )
@@ -47,41 +48,43 @@ def main(robot_handler):
             print(f'Error setting tool {current_tool}: {str(e)}')
         raise e
 
-    # Execute servo-controlled Cartesian motion (servoX) with specified target poses
-    target_cartesian = [
-        {"x": 0.3, "y": 0.2, "z": 0.5, "rx": 0.0, "ry": 1.57, "rz": 0.0},  # Position 1
-        {"x": 0.4, "y": 0.1, "z": 0.6, "rx": 0.0, "ry": 1.57, "rz": 0.1},  # Position 2
-        {"x": 0.35, "y": 0.15, "z": 0.55, "rx": 0.1, "ry": 1.57, "rz": 0.0},  # Position 3
+    # Execute servo-controlled joint motion (MoveJ) with specified target joint angles
+    target_joints = [
+        [0.0, -1.57, 1.57, 0.0, 0.0, 0.0],  # Position 1
+        [0.5, -1.2, 1.2, 0.5, 0.5, 0.5],    # Position 2
+        [-0.5, -1.8, 1.8, -0.5, -0.5, -0.5] # Position 3
     ]
-    execute_servoX(robot_handler, program_handler, target_cartesian)
+    execute_moveJ(robot_handler, program_handler, target_joints)
 
-def execute_servoX(
-    robot_handler, program_handler, target_cartesian, speed=0.2, acceleration=0.1
+def execute_moveJ(
+    robot_handler, program_handler, target_joints, speed=0.2, acceleration=0.1
 ):
     """
-    Execute a servo-controlled Cartesian motion command.
+    Execute a joint motion command using MoveJ.
 
     Parameters:
     - robot_handler: Instance managing robot operations.
     - program_handler: Instance managing program commands.
-    - target_cartesian: List of target Cartesian poses for the robot.
-    - speed: Speed of the Cartesian movement (in m/s).
-    - acceleration: Acceleration of the Cartesian movement (in m/s^2).
+    - target_joints: List of target joint positions for the robot.
+    - speed: Speed of the joint movement (in rad/s).
+    - acceleration: Acceleration of the joint movement (in rad/s^2).
     """
     current_cmd_id = 3  # Start with an ID greater than any fixed cmd_id
-    for cartesian_target in target_cartesian:
+    for joint_target in target_joints:
         # Wait for the next step signal if using step-by-step control
         # block_until_next_step(robot_handler)  # Uncomment if step control is needed
 
         motion_data = {
             "speed": speed,
             "acceleration": acceleration,
-            "target_pose": cartesian_target,
+            "joints": joint_target,  # Changed key from 'joint_positions' to 'joints'
             "continuous_execution": False  # Wait for motion to complete
         }
         cmd_id = current_cmd_id
         current_cmd_id += 1  # Increment ID for the next command
-        program_handler.set_command(cmd.Cartesian, **motion_data, cmd_id=cmd_id)
+
+        # Updated command type
+        program_handler.set_command(cmd.MOVE_J, **motion_data, cmd_id=cmd_id)
         program_handler.execute([cmd_id])
 
         # Wait until the robot reaches the target position
