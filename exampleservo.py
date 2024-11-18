@@ -17,8 +17,8 @@ r.activate_servo_interface('position')
 
 # Define detailed paths for each movement
 # Example: List of positions the robot should move through linearly
-path_1 = np.array([[0.3, 0.25, 0.1], [0.35, 0.25, 0.15], [0.3, 0.30, 0.1]])  # More points added
-path_2 = np.array([[0.25, 0.3, 0.2], [0.2, 0.35, 0.25], [0.25, 0.35, 0.2]])
+path_1 = np.array([[1.5708, -1.5708, 0.7854, -0.7854, 1.5708, 0], [0, 1.5708, -1.5708, 0.7854, -0.7854, 1.5708], [1.0, -0.5, 0.5, 0, 1.0, 0.5]])  # More points added
+path_2 = np.array([[1.2, -0.7, 0.7, 0, 1.2, 0.8], [1.0, -0.5, 0.5, 0, 1.0, 0]])
 
 paths = [path_1, path_2]
 for path in paths:
