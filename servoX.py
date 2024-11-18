@@ -1,6 +1,7 @@
-import sys
-import signal
 from time import sleep
+import signal
+import sys
+
 from neurapy.state_flag import cmd
 from neurapy.component import Component
 from neura_apps.gui_program.program import Program
@@ -9,98 +10,72 @@ from neurapy.commands.state.robot_status import RobotStatus
 from neurapy.loop_counter import loopCount
 from neurapy.utils import CmdIDManager
 from neurapy.socket_client import get_sio_client_singleton_instance
-import logging
-
-# Setup basic logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Global constants
 STEP_SLEEP_INTERVAL = 0.01
-ENABLE_STEP_BY_STEP = False  # Set to False to disable socket dependency for testing
 
 # Global variables
 cur_step: int = 0
 is_new_step: bool = False
 current_cmd_id = 3  # Start with an ID greater than any fixed cmd_id
 
-def is_robot_ready(robot_status):
-    """
-    Check if the robot is in a ready state.
-    """
+def main(robot_handler):
+    program_handler = Program(robot_handler)
+    robot_status = RobotStatus(robot_handler)
+    iterator = loopCount()
+    tool_objects = {}
+
+    sio_object = register_sio_callbacks(program_handler)
+
+    # Initializing local tools for Program 'Program_001'
+    tool_objects['NoTool'] = robot_handler.gripper(gripper_name='STANDARD_GRIPPER', tool_name='NoTool')
+    # Setting tool 'NoTool' for Program 'Program_001'
     try:
-        status = robot_status.get_state()  # Replace with the correct method if available
-        logging.info("Robot status: %s", status)
-        if status in ["READY", "OPERATIONAL"]:
-            return True
-        else:
-            logging.warning("Robot not ready. Current state: %s", status)
-            return False
-    except AttributeError as e:
-        logging.error("RobotStatus object has no attribute 'get_state': %s", e)
-        return False
+        current_tool = 'NoTool'
+        current_tool_params = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        robot_handler.set_tool(tool_name=current_tool, tool_params=current_tool_params)
     except Exception as e:
-        logging.error("Error checking robot readiness: %s", e)
-        return False
+        program_handler._Program__PS.socket_object.send_gui_message(f'Error setting tool {current_tool}: {str(e)}', 'Error')
+        raise e
 
-def validate_motion_parameters(motion_data):
-    x, y, z, rx, ry, rz = motion_data['target_coordinates']
-    max_speed = 100  # Define maximum speed based on your robot's specifications
-    max_acceleration = 100  # Define maximum acceleration
+    # Execute servo-controlled Cartesian motion (servoX) with specified target poses
+    target_cartesian = [
+        {"x": 0.3, "y": 0.2, "z": 0.5, "rx": 0.0, "ry": 1.57, "rz": 0.0},  # Position 1
+        {"x": 0.4, "y": 0.1, "z": 0.6, "rx": 0.0, "ry": 1.57, "rz": 0.1},  # Position 2
+        {"x": 0.35, "y": 0.15, "z": 0.55, "rx": 0.1, "ry": 1.57, "rz": 0.0}, # Position 3
+    ]
+    execute_servoX(robot_handler, program_handler, target_cartesian)
 
-    if not (0 <= motion_data['speed'] <= max_speed):
-        logging.error("Invalid speed: %d", motion_data['speed'])
-        return False
-    if not (0 <= motion_data['acceleration'] <= max_acceleration):
-        logging.error("Invalid acceleration: %d", motion_data['acceleration'])
-        return False
-    if not (-1000 <= x <= 1000 and -1000 <= y <= 1000 and -1000 <= z <= 1000):  # Example bounds
-        logging.error("Invalid target coordinates: %d, %d, %d", x, y, z)
-        return False
-    return True
+def execute_servoX(robot_handler, program_handler, target_cartesian, speed=0.2, acceleration=0.1):
+    global current_cmd_id
+    """
+    Execute a servo-controlled Cartesian motion command.
 
-def test_cartesian_command(robot_handler, program_handler, robot_status):
-    cmd_id = 99  # Use a distinct ID for testing
-    motion_data = {
-        "speed": 10,  # Reduced speed for safety
-        "acceleration": 10,  # Reduced acceleration
-        "target_coordinates": [50, 50, 50, 0, 0, 0],  # Simplified movement
-        "continuous_execution": False
-    }
-    logging.info("Preparing to execute simplified Cartesian command with data: %s", motion_data)
-
-    if not is_robot_ready(robot_status):
-        logging.error("Robot is not in a ready state. Please check the robot's status.")
-        return False
-
-    if not validate_motion_parameters(motion_data):
-        logging.error("Validation failed for motion parameters. Data: %s", motion_data)
-        return False
-
-    try:
-        logging.debug("Setting Cartesian command with ID %d.", cmd_id)
+    Parameters:
+    - robot_handler: Instance managing robot operations.
+    - program_handler: Instance managing program commands.
+    - target_cartesian: List of target Cartesian poses for the robot.
+    - speed: Speed of the Cartesian movement (in m/s).
+    - acceleration: Acceleration of the Cartesian movement (in m/s^2).
+    """
+    for cartesian_target in target_cartesian:
+        motion_data = {
+            "speed": speed,
+            "acceleration": acceleration,
+            "target_pose": cartesian_target,
+            "continuous_execution": True
+        }
+        cmd_id = current_cmd_id
+        current_cmd_id += 1  # Increment ID for the next command
         program_handler.set_command(cmd.Cartesian, **motion_data, cmd_id=cmd_id)
-        logging.debug("Executing Cartesian command with ID %d.", cmd_id)
         program_handler.execute([cmd_id])
-        logging.info("Simplified Cartesian command executed successfully.")
-        return True
-    except Exception as e:
-        logging.error("Failed to execute simplified Cartesian command with ID %d: %s", cmd_id, e)
-        return False
+        sleep(0.1)  # Small delay to simulate continuous motion, adjust as needed
 
 def register_sio_callbacks(program_handler):
-    if ENABLE_STEP_BY_STEP:
-        try:
-            sio_handler = get_sio_client_singleton_instance()
-            sio_register = sio_handler.get_sio_client_register_obj()
-            sio_register.on("StepByStep", handle_sio_step_by_step)
-            logging.info("Socket.IO callbacks registered successfully.")
-            return sio_handler.get_sio_client_obj()
-        except Exception as e:
-            logging.error("Failed to initialize Socket.IO handler: %s", e)
-            return None
-    else:
-        logging.info("Step-by-step mode disabled.")
-        return None
+    sio_handler = get_sio_client_singleton_instance()
+    sio_register = sio_handler.get_sio_client_register_obj()
+    sio_register.on("StepByStep", handle_sio_step_by_step)
+    return sio_handler.get_sio_client_obj()
 
 def handle_sio_step_by_step(data):
     global cur_step
@@ -109,59 +84,21 @@ def handle_sio_step_by_step(data):
     is_new_step = True
 
 def block_until_next_step(robot):
-    if not ENABLE_STEP_BY_STEP:
-        return  # Skip blocking if step-by-step mode is disabled
     global is_new_step
     while not is_new_step:
         sleep(STEP_SLEEP_INTERVAL)
     is_new_step = False
 
 def signal_handler(signum, frame):
-    logging.info("Received termination signal, exiting.")
-    sys.exit()
-
-def main(robot_handler):
-    program_handler = None
-    robot_status = None
-
-    try:
-        logging.info("Initializing Program handler...")
-        program_handler = Program(robot_handler)
-
-        logging.info("Initializing RobotStatus handler...")
-        robot_status = RobotStatus(robot_handler)
-
-        logging.info("Initializing loop counter...")
-        iterator = loopCount()
-
-        logging.info("Setting up tool...")
-        tool_objects = {}
-        tool_objects['NoTool'] = robot_handler.gripper(gripper_name='STANDARD_GRIPPER', tool_name='NoTool')
-        current_tool = 'NoTool'
-        current_tool_params = [0] * 16
-        robot_handler.set_tool(tool_name=current_tool, tool_params=current_tool_params)
-        logging.debug("Tool %s set with parameters: %s", current_tool, current_tool_params)
-
-    except Exception as e:
-        logging.error("Error during initialization: %s", e)
-        sys.exit("Initialization failed.")
-
-    # Test basic Cartesian command
-    if test_cartesian_command(robot_handler, program_handler, robot_status):
-        logging.info("Cartesian test command successful, robot should now be moving.")
-    else:
-        logging.error("Cartesian test command failed. Please check robot readiness, parameters, or connection.")
+    sys.exit("Received termination signal, exiting.")
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
+    robot_handler = Robot()
     try:
-        logging.info("Attempting to connect to the robot...")
-        robot_handler = Robot()
-        logging.info("Robot connection established.")
         main(robot_handler)
     except Exception as e:
-        logging.error("Exception during robot operation: %s: %s", type(e).__name__, e)
+        print('Exception:', str(e))
     finally:
-        logging.info("Program completed.")
-        sys.exit()
+        sys.exit("Program completed.")
