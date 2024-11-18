@@ -17,7 +17,6 @@ STEP_SLEEP_INTERVAL = 0.01
 # Global variables
 cur_step: int = 0
 is_new_step: bool = False
-current_cmd_id = 3  # Start with an ID greater than any fixed cmd_id
 
 def main(robot_handler):
     program_handler = Program(robot_handler)
@@ -28,26 +27,37 @@ def main(robot_handler):
     sio_object = register_sio_callbacks(program_handler)
 
     # Initializing local tools for Program 'Program_001'
-    tool_objects['NoTool'] = robot_handler.gripper(gripper_name='STANDARD_GRIPPER', tool_name='NoTool')
+    tool_objects['NoTool'] = robot_handler.gripper(
+        gripper_name='STANDARD_GRIPPER', tool_name='NoTool'
+    )
     # Setting tool 'NoTool' for Program 'Program_001'
     try:
         current_tool = 'NoTool'
-        current_tool_params = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        robot_handler.set_tool(tool_name=current_tool, tool_params=current_tool_params)
+        current_tool_params = [0] * 16
+        robot_handler.set_tool(
+            tool_name=current_tool, tool_params=current_tool_params
+        )
     except Exception as e:
-        program_handler._Program__PS.socket_object.send_gui_message(f'Error setting tool {current_tool}: {str(e)}', 'Error')
+        # Use a public method to send the error message or print it
+        try:
+            program_handler.send_gui_message(
+                f'Error setting tool {current_tool}: {str(e)}', 'Error'
+            )
+        except AttributeError:
+            print(f'Error setting tool {current_tool}: {str(e)}')
         raise e
 
     # Execute servo-controlled Cartesian motion (servoX) with specified target poses
     target_cartesian = [
         {"x": 0.3, "y": 0.2, "z": 0.5, "rx": 0.0, "ry": 1.57, "rz": 0.0},  # Position 1
         {"x": 0.4, "y": 0.1, "z": 0.6, "rx": 0.0, "ry": 1.57, "rz": 0.1},  # Position 2
-        {"x": 0.35, "y": 0.15, "z": 0.55, "rx": 0.1, "ry": 1.57, "rz": 0.0}, # Position 3
+        {"x": 0.35, "y": 0.15, "z": 0.55, "rx": 0.1, "ry": 1.57, "rz": 0.0},  # Position 3
     ]
     execute_servoX(robot_handler, program_handler, target_cartesian)
 
-def execute_servoX(robot_handler, program_handler, target_cartesian, speed=0.2, acceleration=0.1):
-    global current_cmd_id
+def execute_servoX(
+    robot_handler, program_handler, target_cartesian, speed=0.2, acceleration=0.1
+):
     """
     Execute a servo-controlled Cartesian motion command.
 
@@ -58,18 +68,25 @@ def execute_servoX(robot_handler, program_handler, target_cartesian, speed=0.2, 
     - speed: Speed of the Cartesian movement (in m/s).
     - acceleration: Acceleration of the Cartesian movement (in m/s^2).
     """
+    current_cmd_id = 3  # Start with an ID greater than any fixed cmd_id
     for cartesian_target in target_cartesian:
+        # Wait for the next step signal if using step-by-step control
+        # block_until_next_step(robot_handler)  # Uncomment if step control is needed
+
         motion_data = {
             "speed": speed,
             "acceleration": acceleration,
             "target_pose": cartesian_target,
-            "continuous_execution": True
+            "continuous_execution": False  # Wait for motion to complete
         }
         cmd_id = current_cmd_id
         current_cmd_id += 1  # Increment ID for the next command
         program_handler.set_command(cmd.Cartesian, **motion_data, cmd_id=cmd_id)
         program_handler.execute([cmd_id])
-        sleep(0.1)  # Small delay to simulate continuous motion, adjust as needed
+
+        # Wait until the robot reaches the target position
+        while not robot_handler.is_motion_completed(cmd_id):
+            sleep(0.01)
 
 def register_sio_callbacks(program_handler):
     sio_handler = get_sio_client_singleton_instance()
