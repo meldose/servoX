@@ -36,28 +36,25 @@ def main(robot_handler):
         program_handler._Program__PS.socket_object.send_gui_message(f'Error setting tool {current_tool}: {str(e)}', 'Error')
         raise e
 
-    # Execute Cartesian-controlled motion (servoX) with specified target coordinates
-    target_coordinates = [
-        [400, 500, 600, 0, 0, 0],  # Coordinate set 1
-        [500, 400, 700, 0, 0, 0],  # Coordinate set 2
-        [600, 300, 800, 0, 0, 0],  # Coordinate set 3
-    ]
-    execute_servoX(robot_handler, program_handler, target_coordinates)
+    # Test basic Cartesian command
+    test_cartesian_command(robot_handler, program_handler)
 
-def execute_servoX(robot_handler, program_handler, target_coordinates, speed=50.0, acceleration=50.0):
-    global current_cmd_id
-    for coordinates in target_coordinates:
-        motion_data = {
-            "speed": speed,
-            "acceleration": acceleration,
-            "target_coordinates": coordinates,
-            "continuous_execution": True
-        }
-        cmd_id = current_cmd_id
-        current_cmd_id += 1  # Increment ID for the next command
-        program_handler.set_command(cmd.Cartesian, **motion_data, cmd_id=cmd_id)  # Assume cmd.Cartesian is your defined command for servoX
+def test_cartesian_command(robot_handler, program_handler):
+    cmd_id = 99  # Use a distinct ID for testing
+    motion_data = {
+        "speed": 50,
+        "acceleration": 50,
+        "target_coordinates": [100, 200, 300, 0, 0, 0],
+        "continuous_execution": False
+    }
+    print(f"Preparing to execute test Cartesian command with data: {motion_data}")
+    try:
+        program_handler.set_command(cmd.Cartesian, **motion_data, cmd_id=cmd_id)
         program_handler.execute([cmd_id])
-        sleep(0.1)  # Small delay to simulate continuous motion, adjust as needed
+        print("Test Cartesian command executed successfully.")
+    except Exception as e:
+        print(f"Failed to execute test Cartesian command with ID {cmd_id}: {str(e)}")
+        raise
 
 def register_sio_callbacks(program_handler):
     sio_handler = get_sio_client_singleton_instance()
@@ -87,6 +84,6 @@ if __name__ == "__main__":
     try:
         main(robot_handler)
     except Exception as e:
-        print('Exception:', str(e))
+        print(f"Exception during robot operation: {str(e)}")
     finally:
         sys.exit("Program completed.")
