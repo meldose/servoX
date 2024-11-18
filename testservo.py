@@ -12,7 +12,7 @@ from neurapy.utils import CmdIDManager
 from neurapy.socket_client import get_sio_client_singleton_instance
 
 # Global constants
-STEP_SLEEP_INTERVAL = 0.01
+STEP_SLEEP_INTERVAL = 0
 
 # Global variables
 cur_step: int = 0
