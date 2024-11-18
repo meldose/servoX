@@ -40,7 +40,10 @@ def main(robot_handler):
         raise e
 
     # Test basic Cartesian command
-    test_cartesian_command(robot_handler, program_handler)
+    if test_cartesian_command(robot_handler, program_handler):
+        logging.info("Cartesian test command successful, robot should now be moving.")
+    else:
+        logging.error("Cartesian test command failed, check parameters or robot status.")
 
 def test_cartesian_command(robot_handler, program_handler):
     cmd_id = 99  # Use a distinct ID for testing
@@ -54,17 +57,18 @@ def test_cartesian_command(robot_handler, program_handler):
 
     # Validate coordinates and parameters
     if not validate_motion_parameters(motion_data):
-        logging.error("Validation failed for motion parameters.")
-        return
+        logging.error("Validation failed for motion parameters. Data: %s", motion_data)
+        return False
 
     try:
         program_handler.set_command(cmd.Cartesian, **motion_data, cmd_id=cmd_id)
         logging.info("Command set successfully, proceeding to execute with ID %d", cmd_id)
         program_handler.execute([cmd_id])
         logging.info("Test Cartesian command executed successfully.")
+        return True
     except Exception as e:
         logging.error("Failed to execute test Cartesian command with ID %d: %s: %s", cmd_id, type(e).__name__, e)
-        raise
+        return False
 
 def validate_motion_parameters(motion_data):
     x, y, z, rx, ry, rz = motion_data['target_coordinates']
