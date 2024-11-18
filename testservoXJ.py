@@ -1,20 +1,22 @@
-from gpiozero import Servo # import gpiozero library 
-from time import sleep # import time library from time module
+from gpiozero import Servo  # Import gpiozero library
+from time import sleep       # Import sleep from time module
+import random                # Import random module for generating random positions
 
 # Define GPIO pins for servos
 SERVO_J_PIN = 17  # GPIO17 for Servo J
 SERVO_X_PIN = 27  # GPIO27 for Servo X
 
 # Initialize servos
-servo_j = Servo(SERVO_J_PIN) # set servo_j as Servo
-servo_x = Servo(SERVO_X_PIN) # set servo_x as Servo
+servo_j = Servo(SERVO_J_PIN)  # Initialize Servo J
+servo_x = Servo(SERVO_X_PIN)  # Initialize Servo X
 
 # Defining servo position
-def set_servo_position(servo, position): # defined set_servo_position function
+def set_servo_position(servo, position):
+    """
     Position should be a float between -1 (full left) and +1 (full right).
     """
     servo.value = position
-    print(f"Setting {servo} to position {position}")
+    print(f"Setting Servo on GPIO{servo.pin.number} to position {position}")
 
 # Defining function for servo speed
 def set_servo_speed(servo, speed):
@@ -25,7 +27,7 @@ def set_servo_speed(servo, speed):
     # This is a placeholder function.
     # Actual speed control might require different hardware or PWM frequency adjustments.
     servo.value = speed
-    print(f"Setting {servo} to speed {speed}")
+    print(f"Setting Servo on GPIO{servo.pin.number} to speed {speed}")
     
 # Defining function for conveyor tracking 
 def conveyor_tracking_system():
@@ -61,8 +63,8 @@ def get_object_position():
     # Example: Return a random position value
     # Replace with actual sensor input
     return random.uniform(-1, 1)
-
-# Defining function for calculating servo J postion
+    
+# Defining function for calculating servo J position
 def calculate_servo_j_position(position):
     """
     Calculate the servo J position based on object position.
@@ -70,7 +72,7 @@ def calculate_servo_j_position(position):
     """
     # Example: Direct mapping
     return position
-
+    
 # Defining function for calculating servo X speed
 def calculate_servo_x_speed():
     """
@@ -79,7 +81,6 @@ def calculate_servo_x_speed():
     """
     # Example: Constant speed
     return 0.5
-
+    
 if __name__ == "__main__":
     conveyor_tracking_system()
-
