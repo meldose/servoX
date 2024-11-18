@@ -1,7 +1,6 @@
-from time import sleep
-import signal
 import sys
-
+import signal
+from time import sleep
 from neurapy.state_flag import cmd
 from neurapy.component import Component
 from neura_apps.gui_program.program import Program
@@ -10,6 +9,10 @@ from neurapy.commands.state.robot_status import RobotStatus
 from neurapy.loop_counter import loopCount
 from neurapy.utils import CmdIDManager
 from neurapy.socket_client import get_sio_client_singleton_instance
+import logging
+
+# Setup basic logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Global constants
 STEP_SLEEP_INTERVAL = 0.01
@@ -33,7 +36,7 @@ def main(robot_handler):
         current_tool_params = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         robot_handler.set_tool(tool_name=current_tool, tool_params=current_tool_params)
     except Exception as e:
-        program_handler._Program__PS.socket_object.send_gui_message(f'Error setting tool {current_tool}: {str(e)}', 'Error')
+        logging.error("Error setting tool %s: %s", current_tool, e)
         raise e
 
     # Test basic Cartesian command
@@ -47,20 +50,20 @@ def test_cartesian_command(robot_handler, program_handler):
         "target_coordinates": [100, 200, 300, 0, 0, 0],
         "continuous_execution": False
     }
-    print(f"Preparing to execute test Cartesian command with data: {motion_data}")
+    logging.info("Preparing to execute test Cartesian command with data: %s", motion_data)
 
     # Validate coordinates and parameters
     if not validate_motion_parameters(motion_data):
-        print("Validation failed for motion parameters.")
+        logging.error("Validation failed for motion parameters.")
         return
 
     try:
         program_handler.set_command(cmd.Cartesian, **motion_data, cmd_id=cmd_id)
-        print(f"Command set successfully, proceeding to execute with ID {cmd_id}")
+        logging.info("Command set successfully, proceeding to execute with ID %d", cmd_id)
         program_handler.execute([cmd_id])
-        print("Test Cartesian command executed successfully.")
+        logging.info("Test Cartesian command executed successfully.")
     except Exception as e:
-        print(f"Failed to execute test Cartesian command with ID {cmd_id}: {str(e)}")
+        logging.error("Failed to execute test Cartesian command with ID %d: %s: %s", cmd_id, type(e).__name__, e)
         raise
 
 def validate_motion_parameters(motion_data):
@@ -69,13 +72,13 @@ def validate_motion_parameters(motion_data):
     max_acceleration = 100  # Define maximum acceleration
 
     if not (0 <= motion_data['speed'] <= max_speed):
-        print(f"Invalid speed: {motion_data['speed']}")
+        logging.error("Invalid speed: %d", motion_data['speed'])
         return False
     if not (0 <= motion_data['acceleration'] <= max_acceleration):
-        print(f"Invalid acceleration: {motion_data['acceleration']}")
+        logging.error("Invalid acceleration: %d", motion_data['acceleration'])
         return False
     if not (-1000 <= x <= 1000 and -1000 <= y <= 1000 and -1000 <= z <= 1000):  # Example bounds
-        print(f"Invalid target coordinates: {x}, {y}, {z}")
+        logging.error("Invalid target coordinates: %d, %d, %d", x, y, z)
         return False
     return True
 
@@ -98,7 +101,8 @@ def block_until_next_step(robot):
     is_new_step = False
 
 def signal_handler(signum, frame):
-    sys.exit("Received termination signal, exiting.")
+    logging.info("Received termination signal, exiting.")
+    sys.exit()
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
@@ -107,6 +111,6 @@ if __name__ == "__main__":
     try:
         main(robot_handler)
     except Exception as e:
-        print(f"Exception during robot operation: {str(e)}")
+        logging.error("Exception during robot operation: %s: %s", type(e).__name__, e)
     finally:
         sys.exit("Program completed.")
