@@ -27,27 +27,37 @@ def main(robot_handler):
 
     sio_object = register_sio_callbacks(program_handler)
 
-    # Attempt to control a joint, assuming 'move_to_position' is the correct method
+    tool_objects['NoTool'] = robot_handler.gripper(gripper_name='STANDARD_GRIPPER', tool_name='NoTool')
     try:
-        robot_handler.move_to_position(joint_name='X', position=0)  # Initial position
+        current_tool = 'NoTool'
+        current_tool_params = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        robot_handler.set_tool(tool_name=current_tool, tool_params=current_tool_params)
     except Exception as e:
-        program_handler._Program__PS.socket_object.send_gui_message(f'Error initializing joint control: {str(e)}', 'Error')
+        program_handler._Program__PS.socket_object.send_gui_message(f'Error setting tool {current_tool}: {str(e)}', 'Error')
         raise e
 
-    # Execute movement for the specified joint/servo
-    target_positions = [45, 90]  # Example target positions
-    execute_joint_movement(robot_handler, program_handler, target_positions)
+    # Execute Cartesian-controlled motion (servoX) with specified target coordinates
+    target_coordinates = [
+        [400, 500, 600, 0, 0, 0],  # Coordinate set 1
+        [500, 400, 700, 0, 0, 0],  # Coordinate set 2
+        [600, 300, 800, 0, 0, 0],  # Coordinate set 3
+    ]
+    execute_servoX(robot_handler, program_handler, target_coordinates)
 
-def execute_joint_movement(robot_handler, program_handler, target_positions):
+def execute_servoX(robot_handler, program_handler, target_coordinates, speed=50.0, acceleration=50.0):
     global current_cmd_id
-    for position in target_positions:
-        try:
-            robot_handler.move_to_position(joint_name='X', position=position)
-            current_cmd_id += 1  # Simulate command execution flow
-            sleep(0.1)  # Simulate command delay
-        except Exception as e:
-            program_handler._Program__PS.socket_object.send_gui_message(f'Error during joint movement: {str(e)}', 'Error')
-            break  # Exit the loop if an error occurs
+    for coordinates in target_coordinates:
+        motion_data = {
+            "speed": speed,
+            "acceleration": acceleration,
+            "target_coordinates": coordinates,
+            "continuous_execution": True
+        }
+        cmd_id = current_cmd_id
+        current_cmd_id += 1  # Increment ID for the next command
+        program_handler.set_command(cmd.Cartesian, **motion_data, cmd_id=cmd_id)  # Assume cmd.Cartesian is your defined command for servoX
+        program_handler.execute([cmd_id])
+        sleep(0.1)  # Small delay to simulate continuous motion, adjust as needed
 
 def register_sio_callbacks(program_handler):
     sio_handler = get_sio_client_singleton_instance()
