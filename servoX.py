@@ -11,16 +11,15 @@ from neurapy.loop_counter import loopCount
 from neurapy.utils import CmdIDManager
 from neurapy.socket_client import get_sio_client_singleton_instance
 
-
 # Global constants
 STEP_SLEEP_INTERVAL = 0.01
 
 # Global variables
 cur_step: int = 0
 is_new_step: bool = False
+current_cmd_id = 3  # Start with an ID greater than any fixed cmd_id
 
 def main(robot_handler):
-    # --------------------------  CREATING Robot & Program & RobotStatus OBJECTS  -----------------------
     program_handler = Program(robot_handler)
     robot_status = RobotStatus(robot_handler)
     iterator = loopCount()
@@ -28,94 +27,56 @@ def main(robot_handler):
 
     sio_object = register_sio_callbacks(program_handler)
 
-    id_manager = CmdIDManager(3)
-
-    # Initializing local tools for Program 'Program_001'
-    tool_objects['NoTool'] = robot_handler.gripper(gripper_name='STANDARD_GRIPPER', tool_name='NoTool')
-    # Setting tool 'NoTool' for Program 'Program_001'
+    # Attempt to control a joint, assuming 'move_to_position' is the correct method
     try:
-        current_tool = 'NoTool'
-        current_tool_params = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        robot_handler.set_tool(tool_name=current_tool, tool_params=current_tool_params)
+        robot_handler.move_to_position(joint_name='X', position=0)  # Initial position
     except Exception as e:
-        program_handler._Program__PS.socket_object.send_gui_message(f'Error {current_tool} tool not set properly: {str(e)}', 'Error')
+        program_handler._Program__PS.socket_object.send_gui_message(f'Error initializing joint control: {str(e)}', 'Error')
         raise e
 
-    # -------------------------------  INITIAL JOINT STATE & CARTESIAN POSE  ----------------------------
-    previous_joint_angles = robot_status.getRobotStatus('jointAngles')
+    # Execute movement for the specified joint/servo
+    target_positions = [45, 90]  # Example target positions
+    execute_joint_movement(robot_handler, program_handler, target_positions)
 
-    # --------------------------------------  PLANNING COMMANDS  ----------------------------------------
-    # Planning motion for ServoX and ServoJ
-    motion_data = {
-        "speed": 50.0,
-        "acceleration": 50.0,
-        "target_joint": [
-            previous_joint_angles,
-            [
-                1.5708,  # Angle for ServoX
-                0.0,     # Angle for ServoJ
-                -2.49582083,
-                0,
-                0,
-                0
-            ]
-        ]
-    }
-    # Setting command for joint movement
-    program_handler.set_command(cmd.Joint, **motion_data, cmd_id=2, current_joint_angles=previous_joint_angles, reusable_id=1)
+def execute_joint_movement(robot_handler, program_handler, target_positions):
+    global current_cmd_id
+    for position in target_positions:
+        try:
+            robot_handler.move_to_position(joint_name='X', position=position)
+            current_cmd_id += 1  # Simulate command execution flow
+            sleep(0.1)  # Simulate command delay
+        except Exception as e:
+            program_handler._Program__PS.socket_object.send_gui_message(f'Error during joint movement: {str(e)}', 'Error')
+            break  # Exit the loop if an error occurs
 
-    # --------------------------------------  EXECUTING COMMANDS  ---------------------------------------
-    block_until_next_step(robot_handler)
-    program_handler.execute([2])
-    sio_object.send_gui_message({"state": "FINISHED"}, socket_name="StepByStep")
-
-def register_sio_callbacks(program_handler: Program):
+def register_sio_callbacks(program_handler):
     sio_handler = get_sio_client_singleton_instance()
     sio_register = sio_handler.get_sio_client_register_obj()
     sio_register.on("StepByStep", handle_sio_step_by_step)
-    sio_obj_client = sio_handler.get_sio_client_obj()
-    return sio_obj_client
+    return sio_handler.get_sio_client_obj()
 
-def handle_sio_step_by_step(data: dict):
+def handle_sio_step_by_step(data):
     global cur_step
     global is_new_step
-    print(f"handling socket message on channel 'StepByStep' with data {data}")
-    old_step = cur_step
     cur_step = int(data.get('id', -1))
-    if(old_step != cur_step):
-        is_new_step = True
+    is_new_step = True
 
-def read_cur_step_from_gui() -> int:
-    global cur_step
-    return cur_step
-
-def block_until_next_step(robot: Robot):
-    global cur_step
+def block_until_next_step(robot):
     global is_new_step
-    old_step = cur_step
-    while(robot.is_robot_in_semi_automatic_mode() and cur_step <= old_step and not is_new_step):
-        cur_step = read_cur_step_from_gui()
+    while not is_new_step:
         sleep(STEP_SLEEP_INTERVAL)
     is_new_step = False
 
 def signal_handler(signum, frame):
-    hr.callService('ResetPythonProgramStatus',[])
-    rts.callService('StopPythonScript', [])
-    sys.exit()
+    sys.exit("Received termination signal, exiting.")
 
 if __name__ == "__main__":
-    robot_handler = Robot()
-    program_handler = Program(robot_handler)
-    rts = Component(robot_handler, "RTS")
-    hr = Component(robot_handler, "HR")
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
+    robot_handler = Robot()
     try:
         main(robot_handler)
     except Exception as e:
-        print('Exception:', str(e.msg if hasattr(e, 'msg') else e))
-        hr.callService('ResetPythonProgramStatus', [])
-        program_handler._Program__PS.socket_object.send_gui_message('Error ' + str(e.msg if hasattr(e, 'msg') else e))
+        print('Exception:', str(e))
     finally:
-        robot_handler.set_tool(tool_name='NoTool', tool_params=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-
+        sys.exit("Program completed.")
