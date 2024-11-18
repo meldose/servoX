@@ -42,7 +42,10 @@ def main(robot_handler):
     # Execute servo-controlled joint motion (servoJ) with specified target positions
     target_joints = [
         [1.5708, -1.5708, 0.7854, -0.7854, 1.5708, 0],  # Position 1
-        [0, 1.5708, -1.5708, 0.7854, -0.7854, 1.5708]  # Position 2
+        [0, 1.5708, -1.5708, 0.7854, -0.7854, 1.5708],  # Position 2
+        [1.0, -0.5, 0.5, 0, 1.0, 0.5],  # Position 3
+        [1.2, -0.7, 0.7, 0, 1.2, 0.8], # Position 4
+        [1.0, -0.5, 0.5, 0, 1.0, 0],  # Position 5
     ]
     execute_servoJ(robot_handler, program_handler, target_joints)
 
