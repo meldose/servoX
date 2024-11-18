@@ -30,7 +30,6 @@ def is_robot_ready(robot_status):
     try:
         status = robot_status.get_state()  # Replace with the correct method if available
         logging.info("Robot status: %s", status)
-        # Example status checks (adjust based on actual robot API)
         if status in ["READY", "OPERATIONAL"]:
             return True
         else:
@@ -42,6 +41,22 @@ def is_robot_ready(robot_status):
     except Exception as e:
         logging.error("Error checking robot readiness: %s", e)
         return False
+
+def validate_motion_parameters(motion_data):
+    x, y, z, rx, ry, rz = motion_data['target_coordinates']
+    max_speed = 100  # Define maximum speed based on your robot's specifications
+    max_acceleration = 100  # Define maximum acceleration
+
+    if not (0 <= motion_data['speed'] <= max_speed):
+        logging.error("Invalid speed: %d", motion_data['speed'])
+        return False
+    if not (0 <= motion_data['acceleration'] <= max_acceleration):
+        logging.error("Invalid acceleration: %d", motion_data['acceleration'])
+        return False
+    if not (-1000 <= x <= 1000 and -1000 <= y <= 1000 and -1000 <= z <= 1000):  # Example bounds
+        logging.error("Invalid target coordinates: %d, %d, %d", x, y, z)
+        return False
+    return True
 
 def test_cartesian_command(robot_handler, program_handler, robot_status):
     cmd_id = 99  # Use a distinct ID for testing
@@ -71,22 +86,6 @@ def test_cartesian_command(robot_handler, program_handler, robot_status):
     except Exception as e:
         logging.error("Failed to execute simplified Cartesian command with ID %d: %s", cmd_id, e)
         return False
-
-def validate_motion_parameters(motion_data):
-    x, y, z, rx, ry, rz = motion_data['target_coordinates']
-    max_speed = 100  # Define maximum speed based on your robot's specifications
-    max_acceleration = 100  # Define maximum acceleration
-
-    if not (0 <= motion_data['speed'] <= max_speed):
-        logging.error("Invalid speed: %d", motion_data['speed'])
-        return False
-    if not (0 <= motion_data['acceleration'] <= max_acceleration):
-        logging.error("Invalid acceleration: %d", motion_data['acceleration'])
-        return False
-    if not (-1000 <= x <= 1000 and -1000 <= y <= 1000 and -1000 <= z <= 1000):  # Example bounds
-        logging.error("Invalid target coordinates: %d, %d, %d", x, y, z)
-        return False
-    return True
 
 def register_sio_callbacks(program_handler):
     if ENABLE_STEP_BY_STEP:
@@ -138,7 +137,7 @@ def main(robot_handler):
     if test_cartesian_command(robot_handler, program_handler, robot_status):
         logging.info("Cartesian test command successful, robot should now be moving.")
     else:
-        logging.error("Cartesian test command failed, check parameters or robot status.")
+        logging.error("Cartesian test command failed. Please check robot readiness, parameters, or connection.")
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
