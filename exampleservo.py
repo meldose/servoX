@@ -37,3 +37,4 @@ for path in paths:
 r.deactivate_servo_interface()
 r.stop()
 print("Robot stopped")
+
