@@ -76,7 +76,7 @@ def calculate_target_joints(item_position, robot_speed):
         [0, 1.5708, -1.5708, 0.7854, -0.7854, 1.5708],
     ]
 
-def execute_servoJ(robot_handler, program_handler, target_joints, speed=50.0, acceleration=50.0):
+def execute_servoJ(robot_handler, program_handler, target_joints, speed=100.0, acceleration=50.0):
     global current_cmd_id
     for joint_target in target_joints:
         cmd_id = current_cmd_id
