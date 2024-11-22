@@ -66,7 +66,7 @@ def update_robot_position_based_on_conveyor(sensor_data, robot_handler, program_
     conveyor_speed, item_position = sensor_data
     robot_speed = conveyor_speed * 1.1  # Adjust speed factor as necessary
     target_joints = calculate_target_joints(item_position, robot_speed)
-    execute_servoJ(robot_handler, program_handler, target_joints, speed=robot_speed, acceleration=50.0)
+    execute_servoJ(robot_handler, program_handler, target_joints, speed=robot_speed, acceleration=100.0)
 
 def calculate_target_joints(item_position, robot_speed):
     # Placeholder function to calculate target joints based on item position
@@ -76,7 +76,7 @@ def calculate_target_joints(item_position, robot_speed):
         [0, 1.5708, -1.5708, 0.7854, -0.7854, 1.5708],
     ]
 
-def execute_servoJ(robot_handler, program_handler, target_joints, speed=100.0, acceleration=50.0):
+def execute_servoJ(robot_handler, program_handler, target_joints, speed=100.0, acceleration=100.0):
     global current_cmd_id
     for joint_target in target_joints:
         cmd_id = current_cmd_id
