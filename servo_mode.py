@@ -1,5 +1,3 @@
-# # from ...commands.import_commands import *
-
 
 from neurapy.robot import Robot
 import time
