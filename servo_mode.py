@@ -9,7 +9,7 @@ import copy
 r = Robot()
     
 
-def movelinear_online(self,*args,**kwargs):
+def movelinear_online():
     #Switch to external servo mode
     r.activate_servo_interface('position')
 
@@ -59,16 +59,6 @@ def movelinear_online(self,*args,**kwargs):
     r.deactivate_servo_interface()
 
     r.stop()
-
-    self.logger.info(
-            "MOVELINEAR called with parameters {} {}".format(args, kwargs)
-        )
-    if("maira" in self.robot_name.lower()):
-        self.robot.logger.warning("MOVELINEAR not implemented for Maira. Stay tuned for updates.")
-        return False
-    
-    command = Servo(self)
-    command.execute_visual_servoing(*args,**kwargs)
 
 movelinear_online()
 
