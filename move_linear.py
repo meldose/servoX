@@ -5,7 +5,7 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig
 import copy
 
 r = Robot()
-r.set_override(0.2)
+r.set_override(0.5)
 r.set_mode("Automatic")
 def movelinear_online():
     #Switch to external servo mode

@@ -18,7 +18,7 @@ def movelinear_online():
     out = OutputParameter(cart_pose_length)
 
     # Set current position (your provided coordinates)
-    inp.current_position = [-0.520,-0.410,0.234,0.329,-0.531,0.416,0.661]
+    inp.current_position = [-0.515,-0.372,0.390,0.016,-0.528,0.849,0.002]
     inp.current_velocity = [0.] * cart_pose_length
     inp.current_acceleration = [0.] * cart_pose_length
 
