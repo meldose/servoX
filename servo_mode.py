@@ -5,8 +5,8 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig
 import copy
 
 r = Robot()
-r.set_override(0.6)
-# r.set_mode("Automatic")
+r.set_override(0.5)
+r.set_mode("Automatic")
 def movelinear_online():
     #Switch to external servo mode
     r.activate_servo_interface('position')
@@ -18,7 +18,7 @@ def movelinear_online():
     out = OutputParameter(cart_pose_length)
 
     # Set current position (your provided coordinates)
-    inp.current_position = [-0.520,-0.410,0.234,0.004,-0.428,0.904,-0.007]
+    inp.current_position = [-0.520,-0.410,0.234,0.329,-0.531,0.416,0.661]
     inp.current_velocity = [0.] * cart_pose_length
     inp.current_acceleration = [0.] * cart_pose_length
 
