@@ -4,7 +4,7 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig
 
 r = Robot()
 
-def servo_j():  
+def servo_j(self,*args,**kwargs):  
     #Switch to external servo mode
     r.activate_servo_interface('position')
 
@@ -18,7 +18,7 @@ def servo_j():
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
 
-    inp.target_position = [0.7171273227449193, -0.5909595974851617, -1.0818671607769956, 3.0130405925616444, 1.4414659178889175, -2.2522953507998986]
+    inp.target_position = []
     inp.target_velocity = [0.]*dof
     inp.target_acceleration = [0.]*dof
 
@@ -49,7 +49,6 @@ def servo_j():
         else:
             print("Servo in error, error code, ", error_code)
             break
-        
     r.deactivate_servo_interface()
 
     r.stop()
@@ -61,6 +60,3 @@ def servo_j():
     
     command = Servo(self)
     add_additional_argument(command, *args, additional_args=(0), **kwargs)
-
-servo_j()
-
