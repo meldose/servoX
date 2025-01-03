@@ -4,8 +4,6 @@ import copy
 
 r = Robot()
 
-
-
 def movelinear_online(self,*args,**kwargs):
     target_1 = 0.3
     target_2 = 0.25
