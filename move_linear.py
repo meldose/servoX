@@ -7,7 +7,7 @@ import copy
 r = Robot()
 r.set_override(0.5)
 r.set_mode("Automatic")
-r.gripper("off")
+r.gripper("on")
 def movelinear_online():
     #Switch to external servo mode
     r.activate_servo_interface('position')
@@ -62,3 +62,4 @@ def movelinear_online():
     r.stop()
 
 movelinear_online()
+r.gripper("off")
