@@ -18,7 +18,7 @@ def servo_j():
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
 
-    inp.target_position = [-0.508, -0.389, 0.11, 3.025551393084685, 0.11435756731265737, 1.0839909837263426]
+    inp.target_position = [0.7171273227449193, -0.5909595974851617, -1.0818671607769956, 3.0130405925616444, 1.4414659178889175, -2.2522953507998986]
     inp.target_velocity = [0.]*dof
     inp.target_acceleration = [0.]*dof
 
