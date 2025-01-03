@@ -19,7 +19,7 @@ def movelinear_online():
     out = OutputParameter(cart_pose_length)
 
     # Set current position (your provided coordinates)
-    inp.current_position = [-0.515,-0.372,0.390,0.016,-0.528,0.849,0.002]
+    inp.current_position = [-0.515,-0.372,0.370,0.016,-0.528,0.849,0.002]
     inp.current_velocity = [0.] * cart_pose_length
     inp.current_acceleration = [0.] * cart_pose_length
 
@@ -39,12 +39,9 @@ def movelinear_online():
     servox_proportional_gain = 25
 
     while res == Result.Working:
-        '''
-        Error code is returned through Servo. 
-        '''
         error_code = 0
         if(error_code < 3):
-            res = otg.update(inp, out)
+            # res = otg.update(inp, out)
 
             position = out.new_position
             velocity = out.new_velocity 
