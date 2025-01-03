@@ -53,7 +53,7 @@ def movelinear_online():
             error_code = r.servo_x(position, velocity, acceleration, servox_proportional_gain)
             scaling_factor = r.get_servo_trajectory_scaling_factor()
             out.pass_to_input(inp)
-            # time.sleep(0.001)
+            time.sleep(0.001)
         else:
             print("Servo in error, error code, ", error_code)
             break
