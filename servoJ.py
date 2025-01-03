@@ -27,8 +27,6 @@ def servo_j(self,*args,**kwargs):
     inp.max_jerk = [10.]*dof
     res = Result.Working
 
-
-
     while res == Result.Working:
         '''
         Error code is returned through Servo. 
