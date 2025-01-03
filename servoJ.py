@@ -4,7 +4,7 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig
 
 r = Robot()
 
-def servo_j(self,*args,**kwargs):  
+def servo_j():  
     #Switch to external servo mode
     r.activate_servo_interface('position')
 
@@ -14,7 +14,7 @@ def servo_j(self,*args,**kwargs):
     inp = InputParameter(dof)
     out = OutputParameter(dof)
 
-    inp.current_position = r.get_current_joint_angles()
+    inp.current_position = r.get_current_joint_angles([-0.508, -0.389, 0.230, 3.025551393084685, 0.11435756731265737, 1.0839909837263426])
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
 
@@ -60,3 +60,5 @@ def servo_j(self,*args,**kwargs):
     
     command = Servo(self)
     add_additional_argument(command, *args, additional_args=(0), **kwargs)
+
+servo_j()
