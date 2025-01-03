@@ -20,7 +20,7 @@ def movelinear_online():
 
     # Set current position (your provided coordinates)
 
-    inp.current_position = [-0.514, -0.372, 0.240, 0.71, -0.296, 0.458, 0.445] # providing quaternion values directly as target values
+    inp.current_position = [-0.508,-0.389,0.110,0.079,0.852,0.517,-0.019] # providing quaternion values directly as target values
 
     inp.current_velocity = [0.] * cart_pose_length
     inp.current_acceleration = [0.] * cart_pose_length
@@ -62,6 +62,3 @@ def movelinear_online():
 
 movelinear_online()
 r.gripper("off")
-
-
-
