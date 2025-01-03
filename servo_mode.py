@@ -1,4 +1,3 @@
-
 from neurapy.robot import Robot
 import time
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
