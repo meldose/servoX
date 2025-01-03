@@ -49,6 +49,7 @@ def servo_j():
         else:
             print("Servo in error, error code, ", error_code)
             break
+        
     r.deactivate_servo_interface()
 
     r.stop()
