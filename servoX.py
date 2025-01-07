@@ -3,6 +3,9 @@ import time
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
 import copy
 
+r=Robot()
+r.gripper("on")
+
 def servo_x(self,*args,**kwargs):
     
     r = Robot()
@@ -58,4 +61,4 @@ def servo_x(self,*args,**kwargs):
     r.stop()
 
 servo_x([-0.522, -0.319, 0.149,-3.02,-0.06,1.41])
-    
+r.gripper("off")    
