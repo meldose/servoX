@@ -22,7 +22,7 @@ def servo_x(self,*args,**kwargs):
 
     target = copy.deepcopy(inp.current_position)
     target[0] += 0.2 # Move 200mm in X direction
-    inp.target_position = [-0.522, -0.319, 0.149,-3.02,-0.06,1.41]
+    inp.target_position = target
     inp.target_velocity = [0.]*cart_pose_length
     inp.target_acceleration = [0.]*cart_pose_length
 
@@ -60,5 +60,5 @@ def servo_x(self,*args,**kwargs):
 
     r.stop()
 
-servo_x()
+servo_x([-0.522, -0.319, 0.149,-3.02,-0.06,1.41])
     
