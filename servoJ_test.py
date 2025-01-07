@@ -1,5 +1,3 @@
-
-    
 from neurapy.robot import Robot
 import time
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
@@ -33,9 +31,7 @@ def servo_j():
 
 
     while res == Result.Working:
-        '''
-        Error code is returned through Servo. 
-        '''
+
         error_code = 0
         if(error_code < 3):
 
@@ -55,13 +51,5 @@ def servo_j():
     r.deactivate_servo_interface()
 
     r.stop()
-
-    
-    # self.logger.info(
-    #         "ServoJ called with parameters {} {}".format(args, kwargs)
-    #     )
-    
-    # command = Servo(self)
-    # add_additional_argument(command, *args, additional_args=(0), **kwargs)
 
 servo_j()
