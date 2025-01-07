@@ -56,12 +56,12 @@ def servo_j():
     r.stop()
     
     
-    self.logger.info(
-            "ServoJ called with parameters {} {}".format(args, kwargs)
-        )
+    # self.logger.info(
+    #         "ServoJ called with parameters {} {}".format(args, kwargs)
+    #     )
     
-    command = Servo(self)
-    add_additional_argument(command, *args, additional_args=(0), **kwargs)
+    # command = Servo(self)
+    # add_additional_argument(command, *args, additional_args=(0), **kwargs)
  
 servo_j()
 
