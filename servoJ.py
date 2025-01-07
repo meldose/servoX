@@ -3,7 +3,8 @@ import time
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
  
 r = Robot()
- 
+r.griper("off")
+
 def servo_j():  
     #Switch to external servo mode
     r.activate_servo_interface('position')
@@ -34,7 +35,6 @@ def servo_j():
         Error code is returned through Servo.
         '''
         error_code = 0
-    # if(error_code < 3):
 
         res = otg.update(inp, out)
 
@@ -47,21 +47,11 @@ def servo_j():
         scaling_factor = r.get_servo_trajectory_scaling_factor()
         out.pass_to_input(inp)
         time.sleep(0.001)
-        # else:
-        #     print("Servo in error, error code, ", error_code)
-        #     break
-        
+
     r.deactivate_servo_interface()
  
     r.stop()
-    
-    
-    # self.logger.info(
-    #         "ServoJ called with parameters {} {}".format(args, kwargs)
-    #     )
-    
-    # command = Servo(self)
-    # add_additional_argument(command, *args, additional_args=(0), **kwargs)
- 
+
 servo_j()
+r.griper("on")
 
