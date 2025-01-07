@@ -51,5 +51,4 @@ def servo_j():
     r.stop()
 
 servo_j()
-r.gripper("on")
 r.gripper("off")
