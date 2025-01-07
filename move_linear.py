@@ -3,6 +3,7 @@ import time
 import copy
 
 r = Robot()
+r.gripper("off")
 
 def movelinear_online(self,*args,**kwargs):
     target_1 = 0.3
@@ -35,8 +36,11 @@ def movelinear_online(self,*args,**kwargs):
     r.deactivate_servo_interface()
     r.stop()
 
-    self.logger.info(
-            "MOVELINEAR called with parameters {} {}".format(args, kwargs)
-        )
-    command = Servo(self)
-    command.execute_visual_servoing(*args,**kwargs)
+    # self.logger.info(
+    #         "MOVELINEAR called with parameters {} {}".format(args, kwargs)
+    #     )
+    # command = Servo(self)
+    # command.execute_visual_servoing(*args,**kwargs)
+    
+movelinear_online()
+r.gripper("on")
