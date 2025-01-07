@@ -27,28 +27,29 @@ def servo_j():
     inp.max_jerk = [10.]*dof
     res = Result.Working
  
- 
+
  
     while res == Result.Working:
         '''
         Error code is returned through Servo.
         '''
         error_code = 0
-        if(error_code < 3):
+    # if(error_code < 3):
+
+        res = otg.update(inp, out)
+
+        position = out.new_position
+        velocity = out.new_velocity
+        acceleration = out.new_acceleration
  
-            res = otg.update(inp, out)
- 
-            position = out.new_position
-            velocity = out.new_velocity
-            acceleration = out.new_acceleration
- 
-            error_code = r.servo_j(position, velocity, acceleration)
-            scaling_factor = r.get_servo_trajectory_scaling_factor()
-            out.pass_to_input(inp)
-            time.sleep(0.001)
-        else:
-            print("Servo in error, error code, ", error_code)
-            break
+        error_code = r.servo_j(position, velocity, acceleration)
+        print(error_code)
+        scaling_factor = r.get_servo_trajectory_scaling_factor()
+        out.pass_to_input(inp)
+        time.sleep(0.001)
+        # else:
+        #     print("Servo in error, error code, ", error_code)
+        #     break
         
     r.deactivate_servo_interface()
  
@@ -63,4 +64,4 @@ def servo_j():
     add_additional_argument(command, *args, additional_args=(0), **kwargs)
  
 servo_j()
- 
+
