@@ -19,9 +19,10 @@ def servo_j():
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
  
-    inp.target_position = [0.6152615188316582, -0.4936179943281102, -0.9388122207408979, 3.0132538728277254, 1.6631441804089624, -2.3839833210998176]
+    inp.target_position = [0.6152615661377963, -0.4838400657555952, -1.1460763967934788, 3.0131120004489866, 1.4672724852976176, -2.358734209070975]
     inp.target_velocity = [0.]*dof
     inp.target_acceleration = [0.]*dof
+    r.gripper("on")
  
     inp.max_velocity = [0.5]*dof
     inp.max_acceleration = [3]*dof
@@ -31,9 +32,6 @@ def servo_j():
 
  
     while res == Result.Working:
-        '''
-        Error code is returned through Servo.
-        '''
         error_code = 0
 
         res = otg.update(inp, out)
