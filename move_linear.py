@@ -35,12 +35,6 @@ def movelinear_online(self,*args,**kwargs):
     print("Robot stopped")
     r.deactivate_servo_interface()
     r.stop()
-
-    # self.logger.info(
-    #         "MOVELINEAR called with parameters {} {}".format(args, kwargs)
-    #     )
-    # command = Servo(self)
-    # command.execute_visual_servoing(*args,**kwargs)
     
 movelinear_online()
 r.gripper("on")
