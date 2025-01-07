@@ -3,7 +3,7 @@ import time
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
  
 r = Robot()
-r.gripper("off")
+r.gripper("on")
 
 def servo_j():  
     #Switch to external servo mode
