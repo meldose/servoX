@@ -5,7 +5,7 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig
 r = Robot()
 r.gripper("on")
 
-def servo_j():  
+def servo_j(): # defining function for servoJ
     #Switch to external servo mode
     r.activate_servo_interface('position')
  
