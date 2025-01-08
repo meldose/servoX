@@ -19,8 +19,7 @@ def servo_j():
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
  
-    inp.target_position = [0.6152615661377963, -0.4838400657555952, -1.1460763967934788, 3.0131120004489866, 1.4672724852976176, -2.358734209070975]
-    inp.target_velocity = [0.]*dof
+    inp.target_position = [0.6152615661377963, -0.4838400657555952, -1.1460763967934788, 3.0131120004489866, 1.4672724852976176, -2.358734209070975] # providing the target position
     inp.target_acceleration = [0.]*dof
     r.gripper("on")
  
@@ -41,7 +40,7 @@ def servo_j():
         acceleration = out.new_acceleration
  
         error_code = r.servo_j(position, velocity, acceleration)
-        print(error_code)
+        print(error_code) # checking if the error is there or not 
         scaling_factor = r.get_servo_trajectory_scaling_factor()
         out.pass_to_input(inp)
         time.sleep(0.001)
