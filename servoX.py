@@ -6,7 +6,7 @@ import copy
 r=Robot()
 r.gripper("on")
 
-def servo_x(self,*args,**kwargs):
+def servo_x(self,*args,**kwargs): # function for servo x creating 
     
     r = Robot()
 
@@ -60,5 +60,5 @@ def servo_x(self,*args,**kwargs):
 
     r.stop()
 
-servo_x([-0.522, -0.319, 0.149,-3.02,-0.06,1.41])
+servo_x([-0.522, -0.319, 0.149,-3.02,-0.06,1.41]) # providing the target position for the robot
 r.gripper("off")    
