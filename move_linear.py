@@ -3,6 +3,7 @@ import time
 import copy
 
 r = Robot()
+
 r.gripper("off")
 
 def movelinear_online(self,*args,**kwargs):
