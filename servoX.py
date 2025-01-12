@@ -1,10 +1,10 @@
-from neurapy.robot import Robot
-import time
+from neurapy.robot import Robot # impoting modules
+import time # importing time module
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
-import copy
+import copy # importing copy module
 
-r=Robot()
-r.gripper("on")
+r=Robot() # deifning robot 
+r.gripper("on") # seting gripper on condition
 
 def servo_x(self,*args,**kwargs): # function for servo x creating 
     
