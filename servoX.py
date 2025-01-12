@@ -54,11 +54,11 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
         print(error_code) # checking if there is an error or not 
         scaling_factor = r.get_servo_trajectory_scaling_factor()
         out.pass_to_input(inp)
-        time.sleep(0.001)
+        time.sleep(0.001) # setting time 
 
     r.deactivate_servo_interface() # deactivating the servo interface
 
     r.stop() # stopping the robot
 
 servo_x([-0.522, -0.319, 0.149,-3.02,-0.06,1.41]) # providing the target position for the robot
-r.gripper("off")    
+r.gripper("off") # setting gripper off condition
