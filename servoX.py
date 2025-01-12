@@ -56,9 +56,9 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
         out.pass_to_input(inp)
         time.sleep(0.001)
 
-    r.deactivate_servo_interface()
+    r.deactivate_servo_interface() # deactivating the servo interface
 
-    r.stop()
+    r.stop() # stopping the robot
 
 servo_x([-0.522, -0.319, 0.149,-3.02,-0.06,1.41]) # providing the target position for the robot
 r.gripper("off")    
