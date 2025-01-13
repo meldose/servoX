@@ -1,8 +1,8 @@
-from neurapy.robot import Robot
-import time
-import numpy as np
-import signal
-import sys
+from neurapy.robot import Robot # importing robot module
+import time # importing time module
+import numpy as np # importing numpy
+import signal # importing signal
+import sys # importing sys
 
 def signal_handler(signum, frame):
     print("Signal received, stopping robot")
