@@ -1,20 +1,17 @@
-from neurapy.robot import Robot
-import time
-from ruckig import InputParameter, OutputParameter, Result, Ruckig
+from neurapy.robot import Robot # importing robot module
+import time # importing time module
+from ruckig import InputParameter, OutputParameter, Result, Ruckig # importing ruckig module
  
-r = Robot()
-r.gripper("on")
+r = Robot() #settig r as the variable for the Robot
+r.gripper("on") # setting gripper on
 
 def servo_j(): # defining function for servoJ
     #Switch to external servo mode
     r.activate_servo_interface('position')
- 
     dof = 6
- 
     otg = Ruckig(dof, 0.001)  # DoFs, control cycle
     inp = InputParameter(dof)
     out = OutputParameter(dof)
- 
     inp.current_position = r.get_current_joint_angles()
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
@@ -23,8 +20,8 @@ def servo_j(): # defining function for servoJ
     inp.target_acceleration = [0.]*dof
     r.gripper("on")
  
-    inp.max_velocity = [0.5]*dof
-    inp.max_acceleration = [3]*dof
+    inp.max_velocity = [0.5]*dof # defining the maximum velocity
+    inp.max_acceleration = [3]*dof # defining the maximum acceleration
     inp.max_jerk = [10.]*dof
     res = Result.Working
  
@@ -45,9 +42,10 @@ def servo_j(): # defining function for servoJ
         out.pass_to_input(inp)
         time.sleep(0.001)
 
-    r.deactivate_servo_interface()
+    r.deactivate_servo_interface() # deactivating the servo interface
  
-    r.stop()
+    r.stop() # stopped the robot
 
-servo_j()
-r.gripper("off")
+servo_j() # calling the servo_j function 
+r.gripper("off") # setting gripper off
+
