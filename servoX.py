@@ -13,23 +13,23 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
     #Switch to external servo mode
     r.activate_servo_interface('position')
 
-    cart_pose_length = 7 #X,Y,Z,qw,qx,qy,qz
+    cart_pose_length = 7 #X,Y,Z,qw,qx,qy,qz 
 
     otg = Ruckig(cart_pose_length, 0.001)  # control cycle
     inp = InputParameter(cart_pose_length)
     out = OutputParameter(cart_pose_length)
 
-    inp.current_position = r.get_current_cartesian_pose()
-    inp.current_velocity = [0.]*cart_pose_length
+    inp.current_position = r.get_current_cartesian_pose() # getting the cartesian pose 
+    inp.current_velocity = [0.]*cart_pose_length 
     inp.current_acceleration = [0.]*cart_pose_length
 
     target = copy.deepcopy(inp.current_position)
     target[0] += 0.2 # Move 200mm in X direction
-    inp.target_position = target
-    inp.target_velocity = [0.]*cart_pose_length
-    inp.target_acceleration = [0.]*cart_pose_length
+    inp.target_position = target # initating the target position 
+    inp.target_velocity = [0.]*cart_pose_length # defning the target velocity
+    inp.target_acceleration = [0.]*cart_pose_length # definng the target acceleration
 
-    inp.max_velocity = [0.5]*cart_pose_length
+    inp.max_velocity = [0.5]*cart_pose_length 
     inp.max_acceleration = [3]*cart_pose_length
     inp.max_jerk = [10.]*cart_pose_length
     res = Result.Working
