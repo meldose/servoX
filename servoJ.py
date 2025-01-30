@@ -25,8 +25,6 @@ def servo_j(): # defining function for servoJ
     inp.max_jerk = [10.]*dof
     res = Result.Working
  
-
- 
     while res == Result.Working:
         error_code = 0
 
