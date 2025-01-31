@@ -30,14 +30,14 @@ while res==Result.Working: # while condition is true
     if error < 3:
         res = otg.update(inp, out) # updating the Ruckig with new input and output parameters
         
-        position= out.new_position
-        velocity = out.new_velocity
-        acceleration= out.new_acceleration
+        position= out.new_position # setting the new position
+        velocity = out.new_velocity # setting the new velocity
+        acceleration= out.new_acceleration #setting the new acceleration
         
         error_code =r.servo_j(position,velocity,acceleration) # assigning the servo_j method to error_code variable
         scaling_factor= r.get_servo_trajectory_scaling_factor() # getting the servo_trajectory scaling factor
-        out.pass_to_input(inp)
-        time.sleep()
+        out.pass_to_input(inp) 
+        time.sleep(1) # setting the time sleep for 1 seconds
     else:
         print("Servo in error, error code", error_code) # if no the servo is in error
         break
