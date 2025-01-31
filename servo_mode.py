@@ -1,6 +1,6 @@
 from neurapy.robot import Robot # importing the robot module
 import time # importing time module
-from ruckig import InputParameter, OutputParameter, Result, Ruckig
+from ruckig import InputParameter, OutputParameter, Result, Ruckig # importing the module InputParameter, OutputParameter, Reuslt and Ruckig
 import copy # importing copy module
 
 r = Robot() # setting the robot 
