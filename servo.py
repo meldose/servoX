@@ -13,8 +13,8 @@ inp = InputParameter(dof) # defining the input parameter
 out= Outputparameter(dof) # defining the output the parameter 
 
 inp.current.position= r.get_current_joint_angles() # getting the current joint angles 
-inp.current_velocity= [0]*dof
-inp.current_acceleration = [0]*dof
+inp.current_velocity= [0]*dof # setting the current velocity to zero 
+inp.current_acceleration = [0]*dof # setting the current acceleration to zero
 
 inp.target_position = [0,0,0,0,0,0] # defining the target position
 inp.target_velocity= [0]*dof
