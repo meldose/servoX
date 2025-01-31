@@ -1,8 +1,8 @@
 from neurapy.robot import Robot # importing robot module
-import time 
-from ruckig import InputParameter, Outputparameter, Result, Ruckig
+import time  # importing the time module
+from ruckig import InputParameter, Outputparameter, Result, Ruckig # importing the moduel inputparmater , Ouputparameter ,result and ruckig
 
-r=Robot()
+r=Robot() # defining the robot 
 
 r.activate_servo_interface("position") # method of activate servo interface
 
@@ -17,8 +17,8 @@ inp.current_velocity= [0]*dof # setting the current velocity to zero
 inp.current_acceleration = [0]*dof # setting the current acceleration to zero
 
 inp.target_position = [0,0,0,0,0,0] # defining the target position
-inp.target_velocity= [0]*dof
-inp.target_acceleration= [0]*dof
+inp.target_velocity= [0]*dof # setting the target velocity as zero
+inp.target_acceleration= [0]*dof # setting the target acceleration as zero
 
 inp.max_velocity= [0.5]*dof #  setting the max velocity 
 inp.max_acceleration = [3]*dof # setting the max acceleration
