@@ -19,8 +19,7 @@ def servo_j():
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
  
-    inp.target_position = [0.6152615661377963, -0.4838400657555952, -1.1460763967934788, 3.0131120004489866, 1.4672724852976176, -2.358734209070975]
-    inp.target_velocity = [0.]*dof
+    inp.target_position = [0.6097602358919544, -0.4850339162440727, -1.2137418065050796, 3.0121215088567763, 1.398280974016205, -2.3552789802101484]
     inp.target_acceleration = [0.]*dof
     r.gripper("on")
  
