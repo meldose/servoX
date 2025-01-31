@@ -38,9 +38,7 @@ def movelinear_online():
     servox_proportional_gain = 25
 
     while res == Result.Working:
-        '''
-        Error code is returned through Servo. 
-        '''
+
         error_code = 0
         if(error_code < 3):
             res = otg.update(inp, out)
