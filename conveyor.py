@@ -1,5 +1,3 @@
-# from neurapy.robot import Robot
-# r=Robot()
 
 class TargetPositionCalculator:
     def __init__(self, RX, RY, RZ, AMSD, delta_TSC, delta_CTO):
