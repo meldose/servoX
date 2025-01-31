@@ -37,5 +37,5 @@ def movelinear_online(self,*args,**kwargs): # defining the movelinear_online fun
     r.deactivate_servo_interface() # deactivating the servo interface 
     r.stop() # stopping the robot 
     
-movelinear_online() #s calling the fucntion 
+movelinear_online() # calling the fucntion 
 r.gripper("on") # setting the gripper in on position 
