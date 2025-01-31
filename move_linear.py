@@ -33,7 +33,7 @@ def movelinear_online(self,*args,**kwargs): # defining the movelinear_online fun
     #Sleep for 5 sec to complete the motion
     time.sleep(5)
 
-    print("Robot stopped") 
+    print("Robot stopped") #  print the statment as Robot stopped
     r.deactivate_servo_interface() # deactivating the servo interface 
     r.stop() # stopping the robot 
     
