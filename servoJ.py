@@ -11,8 +11,8 @@ def servo_j(): # defining function for servoJ
     dof = 6 # setting the DOF as 6 
     otg = Ruckig(dof, 0.001)  # DoFs, control cycle
 
-    inp = InputParameter(dof)
-    out = OutputParameter(dof)
+    inp = InputParameter(dof) # setting the input parameter
+    out = OutputParameter(dof) # setting the output parameter
  
     inp.current_position = r.get_current_joint_angles()
     inp.current_velocity = [0.]*dof
