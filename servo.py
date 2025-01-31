@@ -20,8 +20,8 @@ inp.target_position = [0,0,0,0,0,0] # defining the target position
 inp.target_velocity= [0]*dof
 inp.target_acceleration= [0]*dof
 
-inp.max_velocity= [0.5]*dof
-inp.max_acceleration = [3]*dof
+inp.max_velocity= [0.5]*dof #  setting the max velocity 
+inp.max_acceleration = [3]*dof # setting the max acceleration
 inp.max_jerk = [10]*dof
 res = Result.Working # Assigning the result variable
 
