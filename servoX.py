@@ -1,6 +1,6 @@
 from neurapy.robot import Robot # impoting modules
 import time # importing time module
-from ruckig import InputParameter, OutputParameter, Result, Ruckig
+from ruckig import InputParameter, OutputParameter, Result, Ruckig # importing module like Ouputparameter ,inputparameter, result and ruckig
 import copy # importing copy module
 
 r=Robot() # deifning robot 
@@ -19,7 +19,7 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
     inp = InputParameter(cart_pose_length) # setting the inputparameter with cart pose length
     out = OutputParameter(cart_pose_length) # setting the outputparmeter with cart pose length
 
-    inp.current_position = r.get_current_cartesian_pose() # getting the cartesian pose 
+    inp.current_position = r.get_current_cartesian_pose() # getting the cartesian pose
     inp.current_velocity = [0.]*cart_pose_length # mutliplying the initila velocity with cart pose lenght 
     inp.current_acceleration = [0.]*cart_pose_length # mutliplying the current acceleration with cart pose length
 
