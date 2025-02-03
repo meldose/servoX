@@ -27,7 +27,7 @@ res = Result.Working # Assigning the result variable
 
 while res==Result.Working: # while condition is true 
     error=0
-    if error < 3:
+    if error < 3: 
         res = otg.update(inp, out) # updating the Ruckig with new input and output parameters
         
         position= out.new_position # setting the new position
