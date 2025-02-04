@@ -1,10 +1,10 @@
-import time
-import logging
-import copy
-import json
+import time # importing time module
+import logging # importing logging module
+import copy # importing copy module
+import json # importing json module
 from neurapy.robot import Robot
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
-import CommunicationLibrary
+import CommunicationLibrary # importing CommunicationLibrary module
 
 CONTROLLER_IP = "192.168.1.5" # robotic controller ip
 PORT = 11003 # port id number
