@@ -32,8 +32,7 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
 
     inp.max_velocity = [0.5]*cart_pose_length # setting the maximum velocity with 0.5 times the cart pose lenght 
     inp.max_acceleration = [3]*cart_pose_length #se tting the max acceleration with 3 times the cart pose length
-    inp.max_jerk = [10.]*cart_pose_length # setting the max jerk with 10 times that of the cart pose lenght 
-    res = Result.Working
+    inp.max_jerk = [10.]*cart_pose_length # setting the jerk values
 
     servox_proportional_gain = 25 # setting the servox propotional gain as 25
 
