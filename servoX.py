@@ -19,7 +19,8 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
     inp = InputParameter(cart_pose_length) # setting the inputparameter with cart pose length
     out = OutputParameter(cart_pose_length) # setting the outputparmeter with cart pose length
 
-    inp.current_position = r.get_current_cartesian_pose([-0.522, -0.315, 0.120,-3.02,-0.06,1.41]) # getting the cartesian pose
+    inp.current_position = r.get_current_cartesian_pose()
+    inp.target_position = [-0.522, -0.315, 0.120,-3.02,-0.06,1.41] # getting the cartesian pose
     inp.current_velocity = [0.]*cart_pose_length # mutliplying the initila velocity with cart pose lenght 
     inp.current_acceleration = [0.]*cart_pose_length # mutliplying the current acceleration with cart pose length
 
