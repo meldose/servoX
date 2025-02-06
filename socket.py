@@ -1,12 +1,8 @@
 # Vision controller side :
 
 
-import pytest, os, numpy, time, yaml,getpass
-SOCKET_INTERFACE = os.getenv('SOCKET_INTERFACE',"false").lower()=='true'
-if SOCKET_INTERFACE:
-    from neurapy.socket_interface.robot import Robot
-else:
-    from neurapy.robot import Robot
+from neurapy.socket_interface.robot import Robot
+
 import socket 
 
 # Replace with the IP address and port of your robotic controller
