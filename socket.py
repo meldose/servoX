@@ -4,8 +4,8 @@
 import socket 
 
 # Replace with the IP address and port of your robotic controller
-ROBOT_IP = '192.168.1.2'
-ROBOT_PORT = 65432
+ROBOT_IP = "192.168.1.5"
+ROBOT_PORT = 11003
  
 # Sample object coordinates
 object_coordinates = {'x': 123.45, 'y': 67.89, 'z': 10.11}
@@ -23,8 +23,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 import socket
  
 # Bind to the IP and port
-HOST = '0.0.0.0'  # Listen on all available interfaces
-PORT = 65432
+HOST = '192.168.1.13'  # Listen on all available interfaces
+PORT = 11003
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
