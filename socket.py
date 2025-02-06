@@ -1,8 +1,6 @@
 # Vision controller side :
 
 
-from neurapy.socket_interface.robot import Robot
-
 import socket 
 
 # Replace with the IP address and port of your robotic controller
