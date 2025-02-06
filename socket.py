@@ -3,6 +3,16 @@
 import socket
 import json
 
+import sys
+
+from _typeshed import ReadableBuffer, Unused, WriteableBuffer
+from collections.abc import Iterable
+from enum import IntEnum, IntFlag
+from io import BufferedReader, BufferedRWPair, BufferedWriter, IOBase, RawIOBase, TextIOWrapper
+from typing import Any, Literal, Protocol, SupportsIndex
+from typing_extensions import Self
+
+
 ROBOT_IP = "192.168.1.5"
 ROBOT_PORT = 11003
 
@@ -22,9 +32,6 @@ except Exception as e:
 
 
 # Robotic controller side :
-    
-import socket
-import json
 
 HOST = '192.168.1.13'
 PORT = 11003
