@@ -10,6 +10,7 @@ ROBOT_PORT = 11003
 object_coordinates = {'x': 123.45, 'y': 67.89, 'z': 10.11}
 
 # Create a TCP/IP socket
+
 try:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.settimeout(5)  # Added timeout for the socket
