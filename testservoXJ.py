@@ -1,5 +1,5 @@
 c
-import sys
+import sys # importing sys
 import signal
 import threading
 import random
