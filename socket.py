@@ -15,9 +15,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     # Send coordinates as a string (you can use JSON or another format)
     s.sendall(str(object_coordinates).encode('utf-8'))
     print("Coordinates sent!")
-    
-    
-    
+
+
 # Robotic controller side :
     
 import socket
@@ -25,7 +24,7 @@ import socket
 # Bind to the IP and port
 HOST = '0.0.0.0'  # Listen on all available interfaces
 PORT = 65432
- 
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen()
