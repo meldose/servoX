@@ -113,3 +113,4 @@ def servo_x(target_position): # defining the servox function
 object_coords = test_ls() # setting the object coords with function test locator
 if object_coords: # if the object coordinates 
     servo_x(object_coords) # cal the servox function
+
