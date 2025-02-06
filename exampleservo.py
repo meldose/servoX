@@ -12,8 +12,8 @@ def signal_handler(signum, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-r = Robot()
-r.activate_servo_interface('position')
+r = Robot() # defining the robot
+r.activate_servo_interface('position') # activating the servo interface
 
 # Define detailed paths for each movement
 # Example: List of positions the robot should move through linearly
