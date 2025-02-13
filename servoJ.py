@@ -27,7 +27,7 @@ def servo_j(): # defining function for servoJ
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
  
-    inp.target_position = [0.31764351712572647, -1.5097579644424788, -1.115881588855747, 1.8344006543935802, -2.4782356003958528, -0.6248432487824395] # target positon
+    inp.target_position = [0.05433576485219359, -0.6925984908960848, -2.0340581880062945, 1.7242850096800602, -1.7004373767760514, 1.9914459976771988] # target positon
     #inp.target_position = [x,y,z,a,b,c,d]
     inp.max_velocity = [0.5]*dof # setting up the maximum velocity 
     inp.max_acceleration = [3]*dof # setting up the maximum acceleration
@@ -63,7 +63,7 @@ def servo_j(): # defining function for servoJ
         out.pass_to_input(inp)
         time.sleep(0.001) # setting the time sleep to 0.001 seconds
 
-        r.deactivate_servo_interface() # deactivating the servo interface
+    r.deactivate_servo_interface() # deactivating the servo interface
  
     # r.stop() # stopped the robot
 
