@@ -5,16 +5,16 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig # importing r
 r = Robot() #settig r as the variable for the Robot
 r.gripper("on") # setting gripper on
 
-def servo_j(message): # defining function for servoJ
+def servo_j(): # defining function for servoJ
     #Switch to external servo mode
 
-    x = message[0]
-    y = message[1]
-    z = message[2]
-    a = message[3]
-    b = message[4]
-    c = message[5]
-    d = message[6]
+    # x = message[0]
+    # y = message[1]
+    # z = message[2]
+    # a = message[3]
+    # b = message[4]
+    # c = message[5]
+    # d = message[6]
 
     r.activate_servo_interface('position') # activating the servo interface
     dof = 6 # setting the DOF as 6 
@@ -45,7 +45,7 @@ def servo_j(message): # defining function for servoJ
     inp.max_velocity = [0.5]*dof # defining the maximum velocity
     inp.max_acceleration = [3]*dof # defining the maximum acceleration
     inp.max_jerk = [10.]*dof
-    
+
     res = Result.Working
  
     while res == Result.Working:
