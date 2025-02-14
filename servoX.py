@@ -6,9 +6,26 @@ import copy # importing copy module
 r=Robot() # deifning robot 
 r.gripper("on") # seting gripper on condition
 
-def servo_x(self,*args,**kwargs): # function for servo x creating 
+def servo_x(message): # function for servo x creating
+
     
     r = Robot()
+
+    message = [x/1000 for x in message] # converting the values to mm
+    
+    x = message[0]  # setting the values
+    y = message[1]  # setting the values
+    z = message[2]  # setting the values
+    a = message[3]  # setting the values
+    b = message[4]  # setting the values
+    c = message[5]  # setting the values
+    d = message[6]  # setting the values
+    
+    print(message) # printing the message
+    
+    new_message = [x,y,z,d,a,b,c] # added new order for quaternion values
+    print(new_message) # printing the new ordered message
+
 
     #Switch to external servo mode
     r.activate_servo_interface('position')
@@ -20,13 +37,16 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
     out = OutputParameter(cart_pose_length) # setting the outputparmeter with cart pose length
 
     inp.current_position = r.get_current_cartesian_pose()
-    inp.target_position = [-0.490,-0.273,0.054,0.017,-0.516,0.855,-0.035] # providing the target position
+    target = copy.deepcopy(inp.current_position)
+    inp.target_position = [new_message[0], new_message[1], new_message[2], target[3], target[4], target[5], target[6]]
+    # inp.target_position = [-0.529,-0.380,0.058,0.590,-0.587,0.366,-0.418] # providing the target position
     inp.current_velocity = [0.]*cart_pose_length # mutliplying the initila velocity with cart pose lenght 
     inp.current_acceleration = [0.]*cart_pose_length # mutliplying the current acceleration with cart pose length
 
     target = copy.deepcopy(inp.current_position) # copying the current position of the robot 
-    target[0] += 0.2 # Move 200mm in X direction
-    inp.target_position = [-0.490,-0.273,0.054,0.017,-0.516,0.855,-0.035] # initating the target position 
+    # target[0] += 0.2 # Move 200mm in X direction
+    inp.target_position = [new_message[0], new_message[1], new_message[2], target[3], target[4], target[5], target[6]]
+    # inp.target_position = [-0.529,-0.380,0.058,0.590,-0.587,0.366,-0.418] # initating the target position 
     inp.target_velocity = [0.]*cart_pose_length # defning the target velocity
     inp.target_acceleration = [0.]*cart_pose_length # definng the target acceleration
 
