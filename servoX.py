@@ -20,13 +20,13 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
     out = OutputParameter(cart_pose_length) # setting the outputparmeter with cart pose length
 
     inp.current_position = r.get_current_cartesian_pose()
-    inp.target_position = [-0.522, -0.315, 0.120,-3.02,-0.06,1.41] # providing the target position
+    inp.target_position = [-0.490,-0.273,0.054,0.017,-0.516,0.855,-0.035] # providing the target position
     inp.current_velocity = [0.]*cart_pose_length # mutliplying the initila velocity with cart pose lenght 
     inp.current_acceleration = [0.]*cart_pose_length # mutliplying the current acceleration with cart pose length
 
     target = copy.deepcopy(inp.current_position) # copying the current position of the robot 
     target[0] += 0.2 # Move 200mm in X direction
-    inp.target_position = target # initating the target position 
+    inp.target_position = [-0.490,-0.273,0.054,0.017,-0.516,0.855,-0.035] # initating the target position 
     inp.target_velocity = [0.]*cart_pose_length # defning the target velocity
     inp.target_acceleration = [0.]*cart_pose_length # definng the target acceleration
 
@@ -38,6 +38,8 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
 
     velocity = [0.] * 6 #Since ruckig does not provide rotational velocity if quaternion is input, we can send 0 rotational feedforward velocity
     acceleration = [0.] * 6 #Since ruckig does not provide rotational acceleration if quaternion is input, we can send 0 rotational feedforward acceleration
+    
+    res= Result.Working
 
     while res == Result.Working:
         error_code = 0
@@ -60,5 +62,5 @@ def servo_x(self,*args,**kwargs): # function for servo x creating
 
     r.stop() # stopping the robot
 
-servo_x([-0.522, -0.319, 0.149,-3.02,-0.06,1.41]) # providing the target position for the robot
+servo_x() # providing the target position for the robot
 r.gripper("off") # setting gripper off condition
