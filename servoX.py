@@ -59,22 +59,22 @@ def servo_x(message): # function for servo x creating
     velocity = [0.] * 6 #Since ruckig does not provide rotational velocity if quaternion is input, we can send 0 rotational feedforward velocity
     acceleration = [0.] * 6 #Since ruckig does not provide rotational acceleration if quaternion is input, we can send 0 rotational feedforward acceleration
     
-    res= Result.Working
+    res= Result.Working # setting the condition for Result.Working
 
-    while res == Result.Working:
+    while res == Result.Working: # checking the res is equal to Result.Working
         error_code = 0
 
         res = otg.update(inp, out)
 
-        position = out.new_position
+        position = out.new_position # setting the position with the new postion
 
         for i in range(0,3): # Updating target translation velocity and accelerations
             velocity[i] = out.new_velocity[i]
             acceleration[i] = out.new_acceleration[i]
         
-        error_code = r.servo_x(position, velocity, acceleration, servox_proportional_gain)
+        error_code = r.servo_x(position, velocity, acceleration, servox_proportional_gain) # assigining the servox function with veolicty ,accelerationa and servoX_propotional_gain.
         print(error_code) # checking if there is an error or not 
-        scaling_factor = r.get_servo_trajectory_scaling_factor()
+        scaling_factor = r.get_servo_trajectory_scaling_factor() # getting the scalor factor
         out.pass_to_input(inp)
         time.sleep(0.001) # setting time 
 
