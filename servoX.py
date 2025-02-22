@@ -28,7 +28,7 @@ def servo_x(message): # function for servo x creating
 
 
     #Switch to external servo mode
-    r.activate_servo_interface('position')
+    r.activate_servo_interface('position') #  activating the servo interface
 
     cart_pose_length = 7 #X,Y,Z,qw,qx,qy,qz 
 
@@ -36,16 +36,16 @@ def servo_x(message): # function for servo x creating
     inp = InputParameter(cart_pose_length) # setting the inputparameter with cart pose length
     out = OutputParameter(cart_pose_length) # setting the outputparmeter with cart pose length
 
-    inp.current_position = r.get_current_cartesian_pose()
-    target = copy.deepcopy(inp.current_position)
-    inp.target_position = [new_message[0], new_message[1], new_message[2], target[3], target[4], target[5], target[6]]
+    inp.current_position = r.get_current_cartesian_pose() # getting the current pose of the robot
+    target = copy.deepcopy(inp.current_position) # setting the target by copying the current position
+    inp.target_position = [new_message[0], new_message[1], new_message[2], target[3], target[4], target[5], target[6]] # setting the target_position
     # inp.target_position = [-0.529,-0.380,0.058,0.590,-0.587,0.366,-0.418] # providing the target position
     inp.current_velocity = [0.]*cart_pose_length # mutliplying the initila velocity with cart pose lenght 
     inp.current_acceleration = [0.]*cart_pose_length # mutliplying the current acceleration with cart pose length
 
     target = copy.deepcopy(inp.current_position) # copying the current position of the robot 
     # target[0] += 0.2 # Move 200mm in X direction
-    inp.target_position = [new_message[0], new_message[1], new_message[2], target[3], target[4], target[5], target[6]]
+    inp.target_position = [new_message[0], new_message[1], new_message[2], target[3], target[4], target[5], target[6]] # setting the target_position
     # inp.target_position = [-0.529,-0.380,0.058,0.590,-0.587,0.366,-0.418] # initating the target position 
     inp.target_velocity = [0.]*cart_pose_length # defning the target velocity
     inp.target_acceleration = [0.]*cart_pose_length # definng the target acceleration
@@ -62,20 +62,20 @@ def servo_x(message): # function for servo x creating
     res= Result.Working # setting the condition for Result.Working
 
     while res == Result.Working: # checking the res is equal to Result.Working
-        error_code = 0
+        error_code = 0 # setting the error code as zero
 
-        res = otg.update(inp, out)
+        res = otg.update(inp, out) # setting the control cycle with input and output
 
         position = out.new_position # setting the position with the new postion
 
         for i in range(0,3): # Updating target translation velocity and accelerations
-            velocity[i] = out.new_velocity[i]
-            acceleration[i] = out.new_acceleration[i]
+            velocity[i] = out.new_velocity[i] # setting the new_velocity
+            acceleration[i] = out.new_acceleration[i] # setting the new acceleration
         
         error_code = r.servo_x(position, velocity, acceleration, servox_proportional_gain) # assigining the servox function with veolicty ,accelerationa and servoX_propotional_gain.
         print(error_code) # checking if there is an error or not 
         scaling_factor = r.get_servo_trajectory_scaling_factor() # getting the scalor factor
-        out.pass_to_input(inp)
+        out.pass_to_input(inp) # passing the out to the input
         time.sleep(0.001) # setting time 
 
     r.deactivate_servo_interface() # deactivating the servo interface
