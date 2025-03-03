@@ -9,8 +9,8 @@ def servo_j(): # defining function for servoJ
 
     r.activate_servo_interface('position') # activating the servo interface
     dof = 6 # setting the DOF as 6 
-    otg = Ruckig(dof, 0.001)  # DoFs, control cycle
 
+    otg = Ruckig(dof, 0.001)  # DoFs, control cycle
     inp = InputParameter(dof) # setting the input parameter
     out = OutputParameter(dof) # setting the output parameter
  
@@ -19,7 +19,6 @@ def servo_j(): # defining function for servoJ
     inp.current_acceleration = [0.]*dof
  
     inp.target_position = [0.561036550354565, -0.8075385726899302, -0.8665202488853906, -0.07588653308042255, -1.5022882144652068, -2.0441351475042864] # target positon
-    #inp.target_position = [x,y,z,a,b,c,d]
     inp.max_velocity = [4.0]*dof # setting up the maximum velocity 
     inp.max_acceleration = [12]*dof # setting up the maximum acceleration
    
