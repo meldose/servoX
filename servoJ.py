@@ -34,7 +34,7 @@ def servo_j(): # defining function for servoJ
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
  
-    inp.target_position = [0.561036550354565, -0.8075385726899302, -0.8665202488853906, 0.07588653308042255, -1.5022882144652068, -2.0441351475042864] # target positon
+    inp.target_position = [0.561036550354565, -0.8075385726899302, -0.8665202488853906, 0.07588653308042255, -1.5022882144652068, 2.0441351475042864] # target positon
     #inp.target_position = [x,y,z,a,b,c,d]
     inp.max_velocity = [1.0]*dof # setting up the maximum velocity 
     inp.max_acceleration = [5]*dof # setting up the maximum acceleration
