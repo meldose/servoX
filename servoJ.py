@@ -43,7 +43,7 @@ def servo_j(): # defining function for servoJ
     r.gripper("on") # setting the gripper in On position.
     inp.max_velocity = [1.0]*dof
     inp.max_acceleration = [5]*dof
-    inp.max_jerk = [4.0]*dof
+    inp.max_jerk = [2.0]*dof
     res = Result.Working
 
     res = Result.Working
