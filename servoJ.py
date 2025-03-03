@@ -6,7 +6,7 @@ r = Robot() #settig r as the variable for the Robot
 r.gripper("on") # setting gripper on
 
 def servo_j(): # defining function for servoJ
-    
+
     r.activate_servo_interface('position') # activating the servo interface
     dof = 6 # setting the DOF as 6 
     otg = Ruckig(dof, 0.001)  # DoFs, control cycle
@@ -26,7 +26,7 @@ def servo_j(): # defining function for servoJ
     inp.target_acceleration = [0.]*dof # setting the target acceleration as zero.
     r.gripper("on") # setting the gripper in On position.
     inp.max_velocity = [1.0]*dof
-    inp.max_acceleration = [5]*dof
+    inp.max_acceleration = [12]*dof
     inp.max_jerk = [1.0]*dof
     res = Result.Working
 
