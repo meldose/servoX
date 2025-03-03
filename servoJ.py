@@ -28,10 +28,9 @@ def servo_j(): # defining function for servoJ
     inp.max_velocity = [1.0]*dof
     inp.max_acceleration = [12]*dof
     inp.max_jerk = [1.0]*dof
+    
     res = Result.Working
 
-    res = Result.Working
- 
     while res == Result.Working:
         error_code = 0
 
