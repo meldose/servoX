@@ -34,23 +34,15 @@ def servo_j(): # defining function for servoJ
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
  
-    inp.target_position = [0.5138540010620307, -0.5104475141504388, -1.3304698641255779, 0.07748186424951037, -1.3278620819498954, -2.168541854463027] # target positon
+    inp.target_position = [0.561036550354565, -0.8075385726899302, -0.8665202488853906, 0.07588653308042255, -1.5022882144652068, -2.0441351475042864] # target positon
     #inp.target_position = [x,y,z,a,b,c,d]
-    inp.max_velocity = [0.5]*dof # setting up the maximum velocity 
-    inp.max_acceleration = [3]*dof # setting up the maximum acceleration
+    inp.max_velocity = [0.7]*dof # setting up the maximum velocity 
+    inp.max_acceleration = [5]*dof # setting up the maximum acceleration
    
-    # inp = InputParameter(dof) # setting the input parameter
-    # out = OutputParameter(dof) # setting the ouput parameters 
-    
-    # inp.current_position = r.get_current_joint_angles() # getting the current joint angles
-    # inp.current_velocity = [0.]*dof # setting the current velocity as zero
-    # inp.current_acceleration = [0.]*dof # setting the current acceleration as zero
- 
-    # inp.target_position = [0.7523937541369765, -0.29802456012011835, -1.179023089002252, -0.13305920361488976, -1.6366873468026333, 0.8989122483477352] # providing the target position
     inp.target_acceleration = [0.]*dof # setting the target acceleration as zero.
     r.gripper("on") # setting the gripper in On position.
-    inp.max_velocity = [0.5]*dof # defining the maximum velocity
-    inp.max_acceleration = [3]*dof # defining the maximum acceleration
+    inp.max_velocity = [0.9]*dof # defining the maximum velocity
+    inp.max_acceleration = [8]*dof # defining the maximum acceleration
     inp.max_jerk = [10.]*dof
 
     res = Result.Working
