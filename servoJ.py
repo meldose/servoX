@@ -17,10 +17,10 @@ def servo_j(): # defining function for servoJ
     inp.current_position = r.get_current_joint_angles() # getting the current joint angles
     inp.current_velocity = [0.]*dof
     inp.current_acceleration = [0.]*dof
- 
+
     inp.target_position = [0.561036550354565, -0.8075385726899302, -0.8665202488853906, -0.07588653308042255, -1.5022882144652068, -2.0441351475042864] # target positon
-    inp.max_velocity = [4.0]*dof # setting up the maximum velocity 
-    inp.max_acceleration = [12]*dof # setting up the maximum acceleration
+    inp.max_velocity = [8.0]*dof # setting up the maximum velocity 
+    inp.max_acceleration = [6]*dof # setting up the maximum acceleration
    
     inp.target_acceleration = [0.]*dof # setting the target acceleration as zero.
     r.gripper("on") # setting the gripper in On position.
@@ -44,7 +44,7 @@ def servo_j(): # defining function for servoJ
             # print(error_code) # checking if the error is there or not 
             scaling_factor = r.get_servo_trajectory_scaling_factor() # getting the servo trajectory scaling factors.
             out.pass_to_input(inp)
-            time.sleep(0.001) # setting the time sleep to 0.001 seconds
+            time.sleep(0.0000000000000000000000000000001) # setting the time sleep to 0.001 seconds
 
     r.deactivate_servo_interface() # deactivating the servo interface
  
