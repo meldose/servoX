@@ -44,7 +44,7 @@ def servo_j(): # defining function for servoJ
             # print(error_code) # checking if the error is there or not 
             scaling_factor = r.get_servo_trajectory_scaling_factor() # getting the servo trajectory scaling factors.
             out.pass_to_input(inp)
-            time.sleep(0.0000000000000000000000000000001) # setting the time sleep to 0.001 seconds
+            time.sleep(0.00000005) # setting the time sleep to 0.001 seconds
 
     r.deactivate_servo_interface() # deactivating the servo interface
  
